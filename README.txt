@@ -51,7 +51,7 @@ which parts of an object where modified :
 
     >>> file.data = "456"
  
-    >>> from zope.app.dublincore.interfaces import IZopeDublinCore
+    >>> from zope.dublincore.interfaces import IZopeDublinCore
     >>> from zope.interface import directlyProvides
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
     >>> directlyProvides(file, IAttributeAnnotatable) 

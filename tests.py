@@ -33,8 +33,8 @@ class TestObjectModifiedEvent(unittest.TestCase):
 
 def setUpDoctest(test):
     from zope.annotation.attribute import AttributeAnnotations
-    from zope.app.dublincore.interfaces import IWriteZopeDublinCore
-    from zope.app.dublincore.annotatableadapter import ZDCAnnotatableAdapter
+    from zope.dublincore.interfaces import IWriteZopeDublinCore
+    from zope.dublincore.annotatableadapter import ZDCAnnotatableAdapter
     zope.component.provideAdapter(AttributeAnnotations)
     zope.component.provideAdapter(ZDCAnnotatableAdapter,
                                   provides=IWriteZopeDublinCore)

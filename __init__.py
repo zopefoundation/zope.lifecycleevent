@@ -56,7 +56,7 @@ class Attributes(object) :
     """
     Describes modified attributes of an interface.
 
-        >>> from zope.app.dublincore.interfaces import IZopeDublinCore
+        >>> from zope.dublincore.interfaces import IZopeDublinCore
         >>> desc = Attributes(IZopeDublinCore, "title", "description")
         >>> desc.interface == IZopeDublinCore
         True
