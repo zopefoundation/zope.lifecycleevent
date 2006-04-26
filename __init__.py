@@ -49,6 +49,10 @@ zope.deferredimport.deprecated(
 class ObjectCreatedEvent(zope.component.interfaces.ObjectEvent):
     """An object has been created"""
 
+    # for repr backward compatibility. In the next release cycle, we'll
+    # provide a testing framework that addresses repr migration.
+    __module__ = 'zope.app.event.objectevent'
+
     implements(IObjectCreatedEvent)
 
 
@@ -94,6 +98,10 @@ class Sequence(object) :
 class ObjectModifiedEvent(zope.component.interfaces.ObjectEvent):
     """An object has been modified"""
 
+    # for repr backward compatibility. In the next release cycle, we'll
+    # provide a testing framework that addresses repr migration.
+    __module__ = 'zope.app.event.objectevent'
+
     implements(IObjectModifiedEvent)
 
     def __init__(self, object, *descriptions) :
@@ -121,6 +129,10 @@ def modified(object, *descriptions):
 
 class ObjectCopiedEvent(ObjectCreatedEvent):
     """An object has been copied"""
+
+    # for repr backward compatibility. In the next release cycle, we'll
+    # provide a testing framework that addresses repr migration.
+    __module__ = 'zope.app.event.objectevent'
 
     implements(IObjectCopiedEvent)
 
