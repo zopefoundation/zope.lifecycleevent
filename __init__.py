@@ -79,7 +79,7 @@ class Attributes(object) :
 class Sequence(object) :
     """
     Describes modified keys of an interface.
-    
+
         >>> from zope.app.container.interfaces import IContainer
         >>> desc = Sequence(IContainer, 'foo', 'bar')
         >>> desc.interface == IContainer
@@ -88,9 +88,9 @@ class Sequence(object) :
         ('foo', 'bar')
 
     """
-    
+
     implements(ISequence)
-    
+
     def __init__(self, interface, *keys) :
         self.interface = interface
         self.keys = keys
@@ -107,21 +107,21 @@ class ObjectModifiedEvent(zope.component.interfaces.ObjectEvent):
     def __init__(self, object, *descriptions) :
         """
         Init with a list of modification descriptions.
-        
+
         >>> from zope.interface import implements, Interface, Attribute
         >>> class ISample(Interface) :
         ...     field = Attribute("A test field")
         >>> class Sample(object) :
         ...     implements(ISample)
-        
+
         >>> obj = Sample()
         >>> obj.field = 42
         >>> notify(ObjectModifiedEvent(obj, Attributes(ISample, "field")))
-        
+
         """
-        super(ObjectModifiedEvent, self).__init__(object) 
+        super(ObjectModifiedEvent, self).__init__(object)
         self.descriptions = descriptions
-        
+
 
 def modified(object, *descriptions):
     notify(ObjectModifiedEvent(object, *descriptions))
