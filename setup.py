@@ -18,13 +18,10 @@ $Id$
 
 import os
 
-try:
-    from setuptools import setup, Extension
-except ImportError, e:
-    from distutils.core import setup, Extension
+from setuptools import setup, find_packages
 
 setup(name='zope.lifecycleevent',
-      version='3.4-dev',
+      version='3.4dev',
       url='http://svn.zope.org/zope.lifecycleevent',
       license='ZPL 2.1',
       description='Zope lifecycleevent',
@@ -34,7 +31,7 @@ setup(name='zope.lifecycleevent',
                         "to inform each other about relevant new"
                         "objects and object modifications.",
 
-      packages=['zope', 'zope.lifecycleevent'],
+      packages=find_packages('src'),
       package_dir = {'': 'src'},
 
       namespace_packages=['zope',],
