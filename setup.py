@@ -36,11 +36,16 @@ setup(name='zope.lifecycleevent',
 
       namespace_packages=['zope',],
       tests_require = ['zope.testing'],
-      install_requires=['zope.interface',
+      install_requires=['setuptools',
+                        'zope.interface',
                         'zope.component',
                         'zope.deferredimport',
                         'zope.event'],
       include_package_data = True,
 
       zip_safe = False,
+      extras_require = dict(
+        test = ['zope.annotation',
+                'zope.app'] # actually needs zope.app.container
+        )
       )
