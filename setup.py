@@ -46,6 +46,7 @@ setup(name='zope.lifecycleevent',
       zip_safe = False,
       extras_require = dict(
         test = ['zope.annotation',
-                'zope.app'] # actually needs zope.app.container
+                'zope.app.container',
+               ]
         )
       )
