@@ -1,0 +1,8 @@
+Change History
+==============
+
+
+3.4.0 (2007-09-01)
+------------------
+
+Initial release as an independent package

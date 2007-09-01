@@ -20,33 +20,54 @@ import os
 
 from setuptools import setup, find_packages
 
-setup(name='zope.lifecycleevent',
-      version = '3.4.0b1',
-      url='http://svn.zope.org/zope.lifecycleevent',
-      license='ZPL 2.1',
-      description='Zope lifecycleevent',
-      author='Zope Corporation and Contributors',
-      author_email='zope3-dev@zope.org',
-      long_description="In Zope 3, events are used by components"
-                        "to inform each other about relevant new"
-                        "objects and object modifications.",
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-      packages=find_packages('src'),
-      package_dir = {'': 'src'},
+long_description = (
+    read('README.txt')
+    + '\n' +
+    read('CHANGES.txt')
+    + '\n' +
+    'Detailed Documentation\n'
+    '**********************\n'
+    + '\n' +
+    read('src', 'zope', 'lifecycleevent', 'README.txt')
+    + '\n' +
+    'Download\n'
+    '********\n'
+    )
 
-      namespace_packages=['zope',],
-      tests_require = ['zope.testing'],
-      install_requires=['setuptools',
-                        'zope.interface',
-                        'zope.component',
-                        'zope.deferredimport',
-                        'zope.event'],
-      include_package_data = True,
+setup(
+    name='zope.lifecycleevent',
+    version='3.4.0',
+    url='http://pypi.python.org/pypi/zope.lifecycleevent',
+    author='Zope Corporation and Contributors',
+    author_email='zope3-dev@zope.org',
+    license='ZPL 2.1',
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Zope Public License',
+        'Programming Language :: Python',
+        'Operating System :: OS Independent',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Software Development',
+        ],
+    description='Life-cycle events',
+    long_description=long_description,
 
-      zip_safe = False,
-      extras_require = dict(
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
+    namespace_packages=['zope',],
+    include_package_data=True,
+    install_requires=['setuptools',
+                      'zope.interface',
+                      'zope.component',
+                      'zope.deferredimport',
+                      'zope.event'],
+    extras_require=dict(
         test = ['zope.annotation',
-                'zope.app.container',
-               ]
-        )
-      )
+                'zope.app.container',]
+        ),
+    zip_safe=False,
+    )
