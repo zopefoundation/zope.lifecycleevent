@@ -1,10 +1,11 @@
 Change History
 ==============
 
-3.4.1 (unreleased)
+3.5.0 (unreleased)
 ------------------
 
 - Remove old module declarations from classes.
+- Use zope.container instead of zope.app.container.
 
 3.4.0 (2007-09-01)
 ------------------

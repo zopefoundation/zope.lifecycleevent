@@ -39,7 +39,7 @@ long_description = (
 
 setup(
     name='zope.lifecycleevent',
-    version='3.4.1dev',
+    version='3.5.0dev',
     url='http://pypi.python.org/pypi/zope.lifecycleevent',
     author='Zope Corporation and Contributors',
     author_email='zope3-dev@zope.org',
@@ -67,7 +67,7 @@ setup(
                       'zope.event'],
     extras_require=dict(
         test = ['zope.annotation',
-                'zope.app.container',]
+                'zope.container',]
         ),
     zip_safe=False,
     )

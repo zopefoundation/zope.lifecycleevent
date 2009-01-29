@@ -76,7 +76,7 @@ class Sequence(object) :
     """
     Describes modified keys of an interface.
 
-        >>> from zope.app.container.interfaces import IContainer
+        >>> from zope.container.interfaces import IContainer
         >>> desc = Sequence(IContainer, 'foo', 'bar')
         >>> desc.interface == IContainer
         True
