@@ -67,6 +67,7 @@ setup(
                       'zope.event'],
     extras_require=dict(
         test = ['zope.annotation',
+                'zope.dublincore',
                 'zope.container',]
         ),
     zip_safe=False,
