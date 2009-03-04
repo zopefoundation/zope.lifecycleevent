@@ -26,25 +26,6 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IAttributes, ISequence
 
-_marker = object()
-
-##############################################################################
-# BBB 2006/04/03 -- to be removed after 12 months
-
-import zope.deferredimport
-zope.deferredimport.deprecated(
-    "It has moved to zope.component.interfaces.  This reference will be "
-    "gone in Zope 3.5.",
-    ObjectEvent = 'zope.component.interfaces:ObjectEvent',
-    )
-zope.deferredimport.deprecated(
-    "It has moved to zope.component.event.  This reference will be gone "
-    "in Zope 3.5",
-    objectEventNotify = 'zope.component.event:objectEventNotify',
-    )
-
-#
-##############################################################################
 
 class ObjectCreatedEvent(zope.component.interfaces.ObjectEvent):
     """An object has been created"""

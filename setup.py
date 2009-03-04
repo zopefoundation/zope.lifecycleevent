@@ -42,7 +42,7 @@ setup(
     version='3.5.1dev',
     url='http://pypi.python.org/pypi/zope.lifecycleevent',
     author='Zope Corporation and Contributors',
-    author_email='zope3-dev@zope.org',
+    author_email='zope-dev@zope.org',
     license='ZPL 2.1',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -63,7 +63,6 @@ setup(
     install_requires=['setuptools',
                       'zope.interface',
                       'zope.component',
-                      'zope.deferredimport',
                       'zope.event'],
     extras_require=dict(
         test = ['zope.annotation',

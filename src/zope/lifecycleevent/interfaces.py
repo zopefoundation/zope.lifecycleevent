@@ -18,14 +18,7 @@ $Id$
 __docformat__ = 'restructuredtext'
 
 from zope.interface import Interface, Attribute
-import zope.deferredimport
 import zope.component.interfaces
-
-zope.deferredimport.deprecated(
-    "It has moved to zope.component.interfaces.  This reference will be "
-    "gone in Zope 3.5.",
-    IObjectEvent = 'zope.component.interfaces:IObjectEvent',
-    )
 
 class IObjectCreatedEvent(zope.component.interfaces.IObjectEvent):
     """An object has been created.
