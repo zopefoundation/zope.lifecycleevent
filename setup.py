@@ -15,27 +15,11 @@
 
 $Id$
 """
-
 import os
-
 from setuptools import setup, find_packages
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
-
-long_description = (
-    read('README.txt')
-    + '\n' +
-    read('CHANGES.txt')
-    + '\n' +
-    'Detailed Documentation\n'
-    '**********************\n'
-    + '\n' +
-    read('src', 'zope', 'lifecycleevent', 'README.txt')
-    + '\n' +
-    'Download\n'
-    '********\n'
-    )
 
 setup(
     name='zope.lifecycleevent',
@@ -53,8 +37,11 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development',
         ],
-    description='Life-cycle events',
-    long_description=long_description,
+    description='Object life-cycle events',
+    long_description=\
+        read('src', 'zope', 'lifecycleevent', 'README.txt')
+        + '\n\n' +
+        read('CHANGES.txt'),
 
     packages=find_packages('src'),
     package_dir={'': 'src'},

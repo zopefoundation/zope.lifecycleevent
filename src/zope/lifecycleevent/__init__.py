@@ -18,9 +18,9 @@ $Id$
 __docformat__ = 'restructuredtext'
 
 import zope.component.interfaces
-from zope.component import subscribers
 from zope.interface import implements
 from zope.event import notify
+
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
