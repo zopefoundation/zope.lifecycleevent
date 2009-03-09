@@ -2,7 +2,12 @@
 CHANGES
 =======
 
-3.5.1 (unreleased)
+3.5.2 (unreleased)
+------------------
+
+- ...
+
+3.5.1 (2009-03-09)
 ------------------
 
 - Remove deprecated code and thus remove dependency on zope.deferredimport.
