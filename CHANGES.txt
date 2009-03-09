@@ -1,13 +1,16 @@
-Change History
-==============
+=======
+CHANGES
+=======
 
-3.5.1 (unreleased)
+3.5.1 (2009-03-09)
 ------------------
 
 - Remove deprecated code and thus remove dependency on zope.deferredimport.
 
 - Change package's mailing list address to zope-dev at zope.org, as
   zope3-dev at zope.org is now retired. 
+
+- Update package's description and documentation.
 
 3.5.0 (2009-01-31)
 ------------------
