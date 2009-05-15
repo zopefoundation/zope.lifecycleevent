@@ -2,10 +2,16 @@
 CHANGES
 =======
 
-3.5.2 (unreleased)
-------------------
+movedaddedremoved-branch (unreleased)
+-------------------------------------
 
-- ...
+- Create a branch with ``IObjectMovedEvent``, ``IObjectAddedEvent``,
+  ``IObjectRemovedEvent`` interfaces and ``ObjectMovedEvent``,
+  ``ObjectAddedEvent`` and ``ObjectRemovedEvent`` classes copied from
+  zope.container (plus tests).  The intent is to allow packages that
+  rely on these interfaces or the event classes to rely on
+  zope.lifecycleevent (which has few dependencies) instead of
+  zope.container (which has many).
 
 3.5.1 (2009-03-09)
 ------------------

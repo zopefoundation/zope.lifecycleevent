@@ -17,17 +17,21 @@ $Id$
 """
 __docformat__ = 'restructuredtext'
 
-import zope.component.interfaces
+from zope.component.interfaces import ObjectEvent
 from zope.interface import implements
 from zope.event import notify
 
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
-from zope.lifecycleevent.interfaces import IAttributes, ISequence
+from zope.lifecycleevent.interfaces import IObjectMovedEvent
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
+from zope.lifecycleevent.interfaces import IAttributes
+from zope.lifecycleevent.interfaces import ISequence
 
 
-class ObjectCreatedEvent(zope.component.interfaces.ObjectEvent):
+class ObjectCreatedEvent(ObjectEvent):
     """An object has been created"""
 
     implements(IObjectCreatedEvent)
@@ -72,7 +76,7 @@ class Sequence(object) :
         self.interface = interface
         self.keys = keys
 
-class ObjectModifiedEvent(zope.component.interfaces.ObjectEvent):
+class ObjectModifiedEvent(ObjectEvent):
     """An object has been modified"""
 
     implements(IObjectModifiedEvent)
@@ -108,3 +112,40 @@ class ObjectCopiedEvent(ObjectCreatedEvent):
     def __init__(self, object, original):
         super(ObjectCopiedEvent, self).__init__(object)
         self.original = original
+
+class ObjectMovedEvent(ObjectEvent):
+    """An object has been moved"""
+
+    implements(IObjectMovedEvent)
+
+    def __init__(self, object, oldParent, oldName, newParent, newName):
+        ObjectEvent.__init__(self, object)
+        self.oldParent = oldParent
+        self.oldName = oldName
+        self.newParent = newParent
+        self.newName = newName
+
+class ObjectAddedEvent(ObjectMovedEvent):
+    """An object has been added to a container"""
+
+    implements(IObjectAddedEvent)
+
+    def __init__(self, object, newParent=None, newName=None):
+        if newParent is None:
+            newParent = object.__parent__
+        if newName is None:
+            newName = object.__name__
+        ObjectMovedEvent.__init__(self, object, None, None, newParent, newName)
+
+class ObjectRemovedEvent(ObjectMovedEvent):
+    """An object has been removed from a container"""
+
+    implements(IObjectRemovedEvent)
+
+    def __init__(self, object, oldParent=None, oldName=None):
+        if oldParent is None:
+            oldParent = object.__parent__
+        if oldName is None:
+            oldName = object.__name__
+        ObjectMovedEvent.__init__(self, object, oldParent, oldName, None, None)
+
