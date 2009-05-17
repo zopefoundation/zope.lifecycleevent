@@ -58,3 +58,33 @@ class ISequence(IModificationDescription) :
 
     interface = Attribute("The involved interface.")
     keys = Attribute("A sequence of modified keys.")
+
+
+##############################################################################
+# Moving Objects
+
+class IObjectMovedEvent(zope.component.interfaces.IObjectEvent):
+    """An object has been moved."""
+
+    oldParent = Attribute("The old location parent for the object.")
+    oldName = Attribute("The old location name for the object.")
+    newParent = Attribute("The new location parent for the object.")
+    newName = Attribute("The new location name for the object.")
+
+
+##############################################################################
+# Adding objects
+
+class IObjectAddedEvent(IObjectMovedEvent):
+    """An object has been added to a container."""
+
+
+##############################################################################
+# Removing objects
+
+
+class IObjectRemovedEvent(IObjectMovedEvent):
+    """An object has been removed from a container."""
+
+
+
