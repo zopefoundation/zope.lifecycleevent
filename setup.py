@@ -28,7 +28,7 @@ def read(*rnames):
 
 setup(
     name='zope.lifecycleevent',
-    version='3.6.0dev',
+    version='3.6.0',
     url='http://pypi.python.org/pypi/zope.lifecycleevent',
     author='Zope Corporation and Contributors',
     author_email='zope-dev@zope.org',
