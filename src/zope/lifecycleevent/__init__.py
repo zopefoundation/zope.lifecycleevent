@@ -41,13 +41,12 @@ class Attributes(object) :
     """
     Describes modified attributes of an interface.
 
-        >>> from zope.dublincore.interfaces import IZopeDublinCore
-        >>> desc = Attributes(IZopeDublinCore, "title", "description")
-        >>> desc.interface == IZopeDublinCore
+        >>> from zope.lifecycleevent.interfaces import IObjectMovedEvent
+        >>> desc = Attributes(IObjectMovedEvent, "newName", "newParent")
+        >>> desc.interface == IObjectMovedEvent
         True
-        >>> 'title' in desc.attributes
+        >>> 'newName' in desc.attributes
         True
-
     """
 
     implements(IAttributes)

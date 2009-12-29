@@ -153,21 +153,13 @@ class TestObjectRemovedEvent(unittest.TestCase):
 class Context:
     pass
 
-def setUpDoctest(test):
-    from zope.annotation.attribute import AttributeAnnotations
-    from zope.dublincore.interfaces import IWriteZopeDublinCore
-    from zope.dublincore.annotatableadapter import ZDCAnnotatableAdapter
-    zope.component.provideAdapter(AttributeAnnotations)
-    zope.component.provideAdapter(ZDCAnnotatableAdapter,
-                                  provides=IWriteZopeDublinCore)
-
 def test_suite():
     return unittest.TestSuite((
         unittest.makeSuite(TestObjectModifiedEvent),
         unittest.makeSuite(TestObjectMovedEvent),
         unittest.makeSuite(TestObjectAddedEvent),
         unittest.makeSuite(TestObjectRemovedEvent),
-        doctest.DocFileSuite('README.txt', setUp=setUpDoctest,
+        doctest.DocFileSuite('README.txt',
                              tearDown=zope.component.testing.tearDown),
         ))
 

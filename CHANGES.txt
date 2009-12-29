@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-3.5.3 (unreleased)
+3.6.0 (unreleased)
 ------------------
 
-- ...
+- Refactor tests to loose zope.annotation and zope.dublincore as dependencies.
 
 3.5.2 (2009-05-17)
 ------------------

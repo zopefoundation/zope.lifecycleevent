@@ -28,7 +28,7 @@ def read(*rnames):
 
 setup(
     name='zope.lifecycleevent',
-    version='3.5.3dev',
+    version='3.6.0dev',
     url='http://pypi.python.org/pypi/zope.lifecycleevent',
     author='Zope Corporation and Contributors',
     author_email='zope-dev@zope.org',
@@ -57,9 +57,7 @@ setup(
                       'zope.component',
                       'zope.event'],
     extras_require=dict(
-        test = ['zope.annotation',
-                'zope.dublincore',
-                'zope.container',]
+        test = ['zope.container',]
         ),
     zip_safe=False,
     )
