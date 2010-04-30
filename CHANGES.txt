@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.6.1 (unreleased)
+3.6.1 (2010-04-30)
 ------------------
 
 - Removed dependency on undeclared zope.testing.doctest.
