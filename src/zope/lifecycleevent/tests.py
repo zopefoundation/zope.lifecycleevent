@@ -15,10 +15,13 @@
 
 $Id$
 """
+
+import doctest
 import unittest
+
 import zope.component.testing
-from zope.testing import doctest
 from zope.lifecycleevent import ObjectModifiedEvent
+
 
 class TestObjectModifiedEvent(unittest.TestCase):
 
