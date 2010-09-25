@@ -2,9 +2,10 @@
 CHANGES
 =======
 
-3.6.2 (unreleased)
+3.6.2 (2010-09-25)
 ------------------
 
+- Added not declared, but needed test dependency on `zope.component [test]`.
 
 3.6.1 (2010-04-30)
 ------------------
@@ -33,7 +34,7 @@ CHANGES
 - Remove deprecated code and thus remove dependency on zope.deferredimport.
 
 - Change package's mailing list address to zope-dev at zope.org, as
-  zope3-dev at zope.org is now retired. 
+  zope3-dev at zope.org is now retired.
 
 - Update package's description and documentation.
 
