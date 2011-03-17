@@ -16,9 +16,10 @@
 __docformat__ = 'restructuredtext'
 
 from zope.component.interfaces import ObjectEvent
-from zope.interface import implements
+from zope.interface import implements, moduleProvides
 from zope.event import notify
 
+from zope.lifecycleevent.interfaces import IZopeLifecycleEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
@@ -29,10 +30,17 @@ from zope.lifecycleevent.interfaces import IAttributes
 from zope.lifecycleevent.interfaces import ISequence
 
 
+moduleProvides(IZopeLifecycleEvent)
+
+
 class ObjectCreatedEvent(ObjectEvent):
     """An object has been created"""
 
     implements(IObjectCreatedEvent)
+
+
+def created(object):
+    notify(ObjectCreatedEvent(object))
 
 
 class Attributes(object) :
@@ -54,7 +62,7 @@ class Attributes(object) :
         self.attributes = attributes
 
 
-class Sequence(object) :
+class Sequence(object):
     """
     Describes modified keys of an interface.
 
@@ -110,6 +118,11 @@ class ObjectCopiedEvent(ObjectCreatedEvent):
         super(ObjectCopiedEvent, self).__init__(object)
         self.original = original
 
+
+def copied(object, original):
+    notify(ObjectCopiedEvent(object, original))
+
+
 class ObjectMovedEvent(ObjectEvent):
     """An object has been moved"""
 
@@ -121,6 +134,11 @@ class ObjectMovedEvent(ObjectEvent):
         self.oldName = oldName
         self.newParent = newParent
         self.newName = newName
+
+
+def moved(object, oldParent, oldName, newParent, newName):
+    notify(ObjectCreatedEvent(object, oldParent, oldName, newParent, newName))
+
 
 class ObjectAddedEvent(ObjectMovedEvent):
     """An object has been added to a container"""
@@ -134,6 +152,11 @@ class ObjectAddedEvent(ObjectMovedEvent):
             newName = object.__name__
         ObjectMovedEvent.__init__(self, object, None, None, newParent, newName)
 
+
+def added(object, newParent=None, newName=None):
+    notify(ObjectAddedEvent(object, newParent, newName))
+
+
 class ObjectRemovedEvent(ObjectMovedEvent):
     """An object has been removed from a container"""
 
@@ -146,3 +169,6 @@ class ObjectRemovedEvent(ObjectMovedEvent):
             oldName = object.__name__
         ObjectMovedEvent.__init__(self, object, oldParent, oldName, None, None)
 
+
+def removed(object, oldParent=None, oldName=None):
+    notify(ObjectRemovedEvent(object, oldParent, oldName))

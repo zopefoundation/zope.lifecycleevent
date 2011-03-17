@@ -18,6 +18,58 @@ __docformat__ = 'restructuredtext'
 from zope.interface import Interface, Attribute
 import zope.component.interfaces
 
+
+class IZopeLifecycleEvent(Interface):
+
+    def created(object):
+        """Send an IObjectCreatedEvent for `object`."""
+
+    def modified(object, *descriptions):
+        """Send an IObjectModifiedEvent for `object`.
+
+        `descriptions` is a sequence of interfaces or fields which were
+        updated.
+
+        """
+
+    def copied(object, original):
+        """Send an IObjectCopiedEvent for object.
+
+        `original` is the object the copy was created from.
+
+        """
+
+    def moved(object, oldParent, oldName, newParent, newName):
+        """Send an IObjectMovedEvent for object.
+
+        `oldParent` is the container `object` was removed from.
+        `oldName` was the name used to store `object` in `oldParent`.
+        `newParent` is the container `object` was added to.
+        `newName` is the name used to store `object` in `newParent`.
+
+        """
+
+    def added(object, newParent=None, newName=None):
+        """Send an IObjectAddedEvent for object.
+
+        `newParent` is the container `object` was added to.
+        `newName` is the name used to store `object` in the container.
+        These will be determined object.__parent__ and object.__name__
+        if None.
+
+        """
+
+    def removed(object, oldParent=None, oldName=None):
+        """Send an IObjectRemovedEvent for object.
+
+        `oldParent` is the container `object` was removed from.
+        `oldName` was the name used to store `object` in `oldParent`.
+        These will be determined object.__parent__ and object.__name__
+        if None.
+
+        """
+
+
 class IObjectCreatedEvent(zope.component.interfaces.IObjectEvent):
     """An object has been created.
 
@@ -83,6 +135,3 @@ class IObjectAddedEvent(IObjectMovedEvent):
 
 class IObjectRemovedEvent(IObjectMovedEvent):
     """An object has been removed from a container."""
-
-
-
