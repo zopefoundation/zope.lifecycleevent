@@ -2,10 +2,11 @@
 CHANGES
 =======
 
-3.6.3 (unreleased)
+3.7.0 (2011-03-17)
 ------------------
 
-- Nothing changed yet.
+- Added convenience functions to parallel zope.lifecycleevent.modified
+  for the other events defined in this package.
 
 
 3.6.2 (2010-09-25)
