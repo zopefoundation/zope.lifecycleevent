@@ -26,14 +26,14 @@ provided as optional modification descriptions of the ObjectModifiedEvent.
 
 Some examples:
 
-    >>> from zope.interface import Interface, Attribute, implements
+    >>> from zope.interface import Interface, Attribute, implementer
     >>> class IFile(Interface):
     ...     data = Attribute("Data")
     ... 
 
-    >>> class File(object):
-    ...     implements(IFile)
-    ...
+    >>> @implementer(IFile)
+    ... class File(object):
+    ...     pass
 
     >>> file = File()
     >>> file.data = "123"

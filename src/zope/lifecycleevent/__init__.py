@@ -16,7 +16,7 @@
 __docformat__ = 'restructuredtext'
 
 from zope.component.interfaces import ObjectEvent
-from zope.interface import implements, moduleProvides
+from zope.interface import implementer, moduleProvides
 from zope.event import notify
 
 from zope.lifecycleevent.interfaces import IZopeLifecycleEvent
@@ -33,16 +33,17 @@ from zope.lifecycleevent.interfaces import ISequence
 moduleProvides(IZopeLifecycleEvent)
 
 
+@implementer(IObjectCreatedEvent)
 class ObjectCreatedEvent(ObjectEvent):
     """An object has been created"""
 
-    implements(IObjectCreatedEvent)
 
 
 def created(object):
     notify(ObjectCreatedEvent(object))
 
 
+@implementer(IAttributes)
 class Attributes(object) :
     """
     Describes modified attributes of an interface.
@@ -55,13 +56,13 @@ class Attributes(object) :
         True
     """
 
-    implements(IAttributes)
 
     def __init__(self, interface, *attributes) :
         self.interface = interface
         self.attributes = attributes
 
 
+@implementer(ISequence)
 class Sequence(object):
     """
     Describes modified keys of an interface.
@@ -75,26 +76,26 @@ class Sequence(object):
 
     """
 
-    implements(ISequence)
 
     def __init__(self, interface, *keys) :
         self.interface = interface
         self.keys = keys
 
+@implementer(IObjectModifiedEvent)
 class ObjectModifiedEvent(ObjectEvent):
     """An object has been modified"""
 
-    implements(IObjectModifiedEvent)
 
     def __init__(self, object, *descriptions) :
         """
         Init with a list of modification descriptions.
 
-        >>> from zope.interface import implements, Interface, Attribute
+        >>> from zope.interface import implementer, Interface, Attribute
         >>> class ISample(Interface) :
         ...     field = Attribute("A test field")
-        >>> class Sample(object) :
-        ...     implements(ISample)
+        >>> @implementer(ISample)
+        ... class Sample(object) :
+        ...     pass
 
         >>> obj = Sample()
         >>> obj.field = 42
@@ -109,10 +110,10 @@ def modified(object, *descriptions):
     notify(ObjectModifiedEvent(object, *descriptions))
 
 
+@implementer(IObjectCopiedEvent)
 class ObjectCopiedEvent(ObjectCreatedEvent):
     """An object has been copied"""
 
-    implements(IObjectCopiedEvent)
 
     def __init__(self, object, original):
         super(ObjectCopiedEvent, self).__init__(object)
@@ -123,10 +124,10 @@ def copied(object, original):
     notify(ObjectCopiedEvent(object, original))
 
 
+@implementer(IObjectMovedEvent)
 class ObjectMovedEvent(ObjectEvent):
     """An object has been moved"""
 
-    implements(IObjectMovedEvent)
 
     def __init__(self, object, oldParent, oldName, newParent, newName):
         ObjectEvent.__init__(self, object)
@@ -140,10 +141,10 @@ def moved(object, oldParent, oldName, newParent, newName):
     notify(ObjectCreatedEvent(object, oldParent, oldName, newParent, newName))
 
 
+@implementer(IObjectAddedEvent)
 class ObjectAddedEvent(ObjectMovedEvent):
     """An object has been added to a container"""
 
-    implements(IObjectAddedEvent)
 
     def __init__(self, object, newParent=None, newName=None):
         if newParent is None:
@@ -157,10 +158,10 @@ def added(object, newParent=None, newName=None):
     notify(ObjectAddedEvent(object, newParent, newName))
 
 
+@implementer(IObjectRemovedEvent)
 class ObjectRemovedEvent(ObjectMovedEvent):
     """An object has been removed from a container"""
 
-    implements(IObjectRemovedEvent)
 
     def __init__(self, object, oldParent=None, oldName=None):
         if oldParent is None:
