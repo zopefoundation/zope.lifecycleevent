@@ -1,5 +1,6 @@
 include *.rst
 include *.txt
+include *.ini
 
 recursive-include src *
 
