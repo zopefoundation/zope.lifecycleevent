@@ -39,6 +39,8 @@ setup(
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.3",
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development',
@@ -58,10 +60,8 @@ setup(
                       'zope.component',
                       'zope.event'],
     extras_require=dict(
-        test = [
-            'zope.component [test]',
-            'zope.container',
-            ]
+        test = []
         ),
+    test_suite='zope.lifecycleevent.tests.test_suite',
     zip_safe=False,
     )

@@ -16,7 +16,7 @@ cycle of an object is accompanied by various events.
 
     >>> obj = Sample()
     >>> notify(ObjectCreatedEvent(obj))
-    
+
     >>> obj.modified = True
     >>> notify(ObjectModifiedEvent(obj))
 
@@ -29,7 +29,7 @@ Some examples:
     >>> from zope.interface import Interface, Attribute, implementer
     >>> class IFile(Interface):
     ...     data = Attribute("Data")
-    ... 
+    ...
 
     >>> @implementer(IFile)
     ... class File(object):

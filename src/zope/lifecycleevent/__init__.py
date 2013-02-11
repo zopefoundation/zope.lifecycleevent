@@ -37,25 +37,13 @@ moduleProvides(IZopeLifecycleEvent)
 class ObjectCreatedEvent(ObjectEvent):
     """An object has been created"""
 
-
-
 def created(object):
     notify(ObjectCreatedEvent(object))
 
 
 @implementer(IAttributes)
 class Attributes(object) :
-    """
-    Describes modified attributes of an interface.
-
-        >>> from zope.lifecycleevent.interfaces import IObjectMovedEvent
-        >>> desc = Attributes(IObjectMovedEvent, "newName", "newParent")
-        >>> desc.interface == IObjectMovedEvent
-        True
-        >>> 'newName' in desc.attributes
-        True
-    """
-
+    """Describes modified attributes of an interface."""
 
     def __init__(self, interface, *attributes) :
         self.interface = interface
@@ -64,18 +52,7 @@ class Attributes(object) :
 
 @implementer(ISequence)
 class Sequence(object):
-    """
-    Describes modified keys of an interface.
-
-        >>> from zope.container.interfaces import IContainer
-        >>> desc = Sequence(IContainer, 'foo', 'bar')
-        >>> desc.interface == IContainer
-        True
-        >>> desc.keys
-        ('foo', 'bar')
-
-    """
-
+    """Describes modified keys of an interface."""
 
     def __init__(self, interface, *keys) :
         self.interface = interface
@@ -87,21 +64,7 @@ class ObjectModifiedEvent(ObjectEvent):
 
 
     def __init__(self, object, *descriptions) :
-        """
-        Init with a list of modification descriptions.
-
-        >>> from zope.interface import implementer, Interface, Attribute
-        >>> class ISample(Interface) :
-        ...     field = Attribute("A test field")
-        >>> @implementer(ISample)
-        ... class Sample(object) :
-        ...     pass
-
-        >>> obj = Sample()
-        >>> obj.field = 42
-        >>> notify(ObjectModifiedEvent(obj, Attributes(ISample, "field")))
-
-        """
+        """Init with a list of modification descriptions."""
         super(ObjectModifiedEvent, self).__init__(object)
         self.descriptions = descriptions
 

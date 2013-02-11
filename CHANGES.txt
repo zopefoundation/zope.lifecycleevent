@@ -5,6 +5,10 @@ CHANGES
 4.0.0 (unreleased)
 ------------------
 
+- Test coverage at 100%.
+
+- Added support for Python 3.3 and PyPy.
+
 - Replaced deprecated ``zope.interface.implements`` usage with equivalent
   ``zope.interface.implementer`` decorator.
 
