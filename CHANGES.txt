@@ -5,7 +5,7 @@ CHANGES
 4.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add Trove classifiers indicating CPython and PyPy support.
 
 
 4.0.1 (2013-02-11)
