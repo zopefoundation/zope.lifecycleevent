@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-4.0.2 (unreleased)
+4.0.2 (2013-03-08)
 ------------------
 
 - Add Trove classifiers indicating CPython and PyPy support.
