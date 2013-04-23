@@ -5,7 +5,11 @@ CHANGES
 4.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Dropped the dependency on ``zope.component`` as the interface and
+  implementation of ``ObjectEvent`` is now in ``zope.interface``.
+  Retained the dependency for the tests.
+
+- ...
 
 
 4.0.2 (2013-03-08)
