@@ -59,10 +59,9 @@ setup(
     include_package_data=True,
     install_requires=['setuptools',
                       'zope.interface',
-                      'zope.component',
                       'zope.event'],
     extras_require=dict(
-        test = []
+        test = ['zope.component']
         ),
     test_suite='zope.lifecycleevent.tests.test_suite',
     zip_safe=False,

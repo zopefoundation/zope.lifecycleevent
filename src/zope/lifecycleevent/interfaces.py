@@ -16,7 +16,7 @@
 __docformat__ = 'restructuredtext'
 
 from zope.interface import Interface, Attribute
-import zope.component.interfaces
+from zope.interface import interfaces
 
 
 class IZopeLifecycleEvent(Interface):
@@ -70,7 +70,7 @@ class IZopeLifecycleEvent(Interface):
         """
 
 
-class IObjectCreatedEvent(zope.component.interfaces.IObjectEvent):
+class IObjectCreatedEvent(interfaces.IObjectEvent):
     """An object has been created.
 
     The location will usually be ``None`` for this event."""
@@ -82,17 +82,17 @@ class IObjectCopiedEvent(IObjectCreatedEvent):
     original = Attribute("The original from which the copy was made")
 
 
-class IObjectModifiedEvent(zope.component.interfaces.IObjectEvent):
+class IObjectModifiedEvent(interfaces.IObjectEvent):
     """An object has been modified"""
 
 
-class IModificationDescription(Interface) :
+class IModificationDescription(Interface):
     """ Marker interface for descriptions of object modifications.
 
     Can be used as a parameter of an IObjectModifiedEvent."""
 
 
-class IAttributes(IModificationDescription) :
+class IAttributes(IModificationDescription):
     """ Describes the attributes of an interface.
 
     """
@@ -101,7 +101,7 @@ class IAttributes(IModificationDescription) :
     attributes = Attribute("A sequence of modified attributes.")
 
 
-class ISequence(IModificationDescription) :
+class ISequence(IModificationDescription):
     """ Describes the modified keys of a sequence-like interface.
 
     """
@@ -113,7 +113,7 @@ class ISequence(IModificationDescription) :
 ##############################################################################
 # Moving Objects
 
-class IObjectMovedEvent(zope.component.interfaces.IObjectEvent):
+class IObjectMovedEvent(interfaces.IObjectEvent):
     """An object has been moved."""
 
     oldParent = Attribute("The old location parent for the object.")
