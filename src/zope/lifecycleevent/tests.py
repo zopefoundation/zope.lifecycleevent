@@ -24,9 +24,12 @@ from zope.lifecycleevent import ObjectCopiedEvent, copied
 
 
 class TestSequence(unittest.TestCase):
+
     def testSequence(self):
+
         from zope.interface import Interface, Attribute
-        class ISample(Interface) :
+
+        class ISample(Interface):
             field1 = Attribute("A test field")
             field2 = Attribute("A test field")
             field3 = Attribute("A test field")
@@ -96,11 +99,11 @@ class TestObjectModifiedEvent(unittest.TestCase):
     def testAttributes(self):
         from zope.interface import implementer, Interface, Attribute
 
-        class ISample(Interface) :
+        class ISample(Interface):
             field = Attribute("A test field")
 
         @implementer(ISample)
-        class Sample(object) :
+        class Sample(object):
             pass
         obj = Sample()
         obj.field = 42
@@ -168,8 +171,8 @@ class TestObjectMovedEvent(unittest.TestCase):
         from zope.interface.verify import verifyObject
         from zope.lifecycleevent.interfaces import IObjectMovedEvent
         verifyObject(IObjectMovedEvent,
-                     self._makeOne(None, None, None, None, None)
-                    )
+                     self._makeOne(None, None, None, None, None))
+
 
 class TestObjectAddedEvent(unittest.TestCase):
 
@@ -214,6 +217,7 @@ class TestObjectAddedEvent(unittest.TestCase):
         ob = Context()
         verifyObject(IObjectAddedEvent, self._makeOne(ob, parent, 'new_name'))
 
+
 class TestObjectRemovedEvent(unittest.TestCase):
 
     def _getTargetClass(self):
@@ -257,8 +261,10 @@ class TestObjectRemovedEvent(unittest.TestCase):
         ob = object()
         verifyObject(IObjectRemovedEvent, self._makeOne(ob, parent, 'new_name'))
 
+
 class Context:
     pass
+
 
 def test_suite():
     return unittest.TestSuite((
@@ -274,5 +280,5 @@ def test_suite():
                              tearDown=zope.component.testing.tearDown),
         ))
 
-if __name__=='__main__':
+if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

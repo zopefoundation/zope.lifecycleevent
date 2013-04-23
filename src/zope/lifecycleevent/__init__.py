@@ -15,7 +15,7 @@
 """
 __docformat__ = 'restructuredtext'
 
-from zope.component.interfaces import ObjectEvent
+from zope.interface.interfaces import ObjectEvent
 from zope.interface import implementer, moduleProvides
 from zope.event import notify
 
@@ -37,15 +37,16 @@ moduleProvides(IZopeLifecycleEvent)
 class ObjectCreatedEvent(ObjectEvent):
     """An object has been created"""
 
+
 def created(object):
     notify(ObjectCreatedEvent(object))
 
 
 @implementer(IAttributes)
-class Attributes(object) :
+class Attributes(object):
     """Describes modified attributes of an interface."""
 
-    def __init__(self, interface, *attributes) :
+    def __init__(self, interface, *attributes):
         self.interface = interface
         self.attributes = attributes
 
@@ -54,16 +55,16 @@ class Attributes(object) :
 class Sequence(object):
     """Describes modified keys of an interface."""
 
-    def __init__(self, interface, *keys) :
+    def __init__(self, interface, *keys):
         self.interface = interface
         self.keys = keys
+
 
 @implementer(IObjectModifiedEvent)
 class ObjectModifiedEvent(ObjectEvent):
     """An object has been modified"""
 
-
-    def __init__(self, object, *descriptions) :
+    def __init__(self, object, *descriptions):
         """Init with a list of modification descriptions."""
         super(ObjectModifiedEvent, self).__init__(object)
         self.descriptions = descriptions
@@ -77,7 +78,6 @@ def modified(object, *descriptions):
 class ObjectCopiedEvent(ObjectCreatedEvent):
     """An object has been copied"""
 
-
     def __init__(self, object, original):
         super(ObjectCopiedEvent, self).__init__(object)
         self.original = original
@@ -90,7 +90,6 @@ def copied(object, original):
 @implementer(IObjectMovedEvent)
 class ObjectMovedEvent(ObjectEvent):
     """An object has been moved"""
-
 
     def __init__(self, object, oldParent, oldName, newParent, newName):
         ObjectEvent.__init__(self, object)
@@ -108,7 +107,6 @@ def moved(object, oldParent, oldName, newParent, newName):
 class ObjectAddedEvent(ObjectMovedEvent):
     """An object has been added to a container"""
 
-
     def __init__(self, object, newParent=None, newName=None):
         if newParent is None:
             newParent = object.__parent__
@@ -124,7 +122,6 @@ def added(object, newParent=None, newName=None):
 @implementer(IObjectRemovedEvent)
 class ObjectRemovedEvent(ObjectMovedEvent):
     """An object has been removed from a container"""
-
 
     def __init__(self, object, oldParent=None, oldName=None):
         if oldParent is None:
