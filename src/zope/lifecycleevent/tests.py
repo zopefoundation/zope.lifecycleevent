@@ -262,6 +262,39 @@ class TestObjectRemovedEvent(unittest.TestCase):
         verifyObject(IObjectRemovedEvent, self._makeOne(ob, parent, 'new_name'))
 
 
+class DummySubscriber:
+
+    event = None
+
+    def __call__(self, event):
+        self.event = event
+
+
+class TestMoved(unittest.TestCase):
+    """Testing .moved()."""
+
+    def setUp(self):
+        from zope.event import subscribers
+        self._old_subscribers = subscribers[:]
+        subscribers[:] = [DummySubscriber()]
+
+    def tearDown(self):
+        from zope.event import subscribers
+        subscribers[:] = self._old_subscribers
+
+    def test_it(self):
+        from zope.lifecycleevent import moved, ObjectMovedEvent
+        from zope.event import subscribers
+        moved('object', 'oldParent', 'oldName', 'newParent', 'newName')
+        event = subscribers[0].event
+        self.assertTrue(isinstance(event, ObjectMovedEvent))
+        self.assertEqual(event.object, 'object')
+        self.assertEqual(event.oldParent, 'oldParent')
+        self.assertEqual(event.oldName, 'oldName')
+        self.assertEqual(event.newParent, 'newParent')
+        self.assertEqual(event.newName, 'newName')
+
+
 class Context:
     pass
 
@@ -276,6 +309,7 @@ def test_suite():
         unittest.makeSuite(TestObjectMovedEvent),
         unittest.makeSuite(TestObjectAddedEvent),
         unittest.makeSuite(TestObjectRemovedEvent),
+        unittest.makeSuite(TestMoved),
         doctest.DocFileSuite('README.txt',
                              tearDown=zope.component.testing.tearDown),
         ))
