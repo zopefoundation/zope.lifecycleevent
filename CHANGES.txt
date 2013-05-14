@@ -9,7 +9,7 @@ CHANGES
   implementation of ``ObjectEvent`` is now in ``zope.interface``.
   Retained the dependency for the tests.
 
-- ...
+- Fixed: ``.moved`` tried to notify the wrong event.
 
 
 4.0.2 (2013-03-08)

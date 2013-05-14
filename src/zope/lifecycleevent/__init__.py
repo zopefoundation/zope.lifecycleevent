@@ -100,7 +100,7 @@ class ObjectMovedEvent(ObjectEvent):
 
 
 def moved(object, oldParent, oldName, newParent, newName):
-    notify(ObjectCreatedEvent(object, oldParent, oldName, newParent, newName))
+    notify(ObjectMovedEvent(object, oldParent, oldName, newParent, newName))
 
 
 @implementer(IObjectAddedEvent)
