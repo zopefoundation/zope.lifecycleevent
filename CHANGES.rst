@@ -1,6 +1,12 @@
 ``zope.lifecycleevent`` Changelog
 =================================
 
+4.0.4 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 4.0.3 (2013-09-12)
 ------------------
 
