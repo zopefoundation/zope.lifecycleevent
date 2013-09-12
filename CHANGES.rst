@@ -1,7 +1,7 @@
 ``zope.lifecycleevent`` Changelog
 =================================
 
-4.0.3 (unreleased)
+4.0.3 (2013-09-12)
 ------------------
 
 - Dropped the dependency on ``zope.component`` as the interface and
