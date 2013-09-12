@@ -1,6 +1,5 @@
-=======
-CHANGES
-=======
+``zope.lifecycleevent`` Changelog
+=================================
 
 4.0.3 (unreleased)
 ------------------

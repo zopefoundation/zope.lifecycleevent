@@ -51,7 +51,7 @@ setup(
     long_description=\
         read('src', 'zope', 'lifecycleevent', 'README.txt')
         + '\n\n' +
-        read('CHANGES.txt'),
+        read('CHANGES.rst'),
 
     packages=find_packages('src'),
     package_dir={'': 'src'},
