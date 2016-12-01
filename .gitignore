@@ -10,3 +10,6 @@ bin
 build
 develop-eggs
 parts
+doc/_build
+.coverage
+htmlcov

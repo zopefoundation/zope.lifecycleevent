@@ -19,9 +19,23 @@ cycle of an object is accompanied by various events.
     >>> obj.modified = True
     >>> notify(ObjectModifiedEvent(obj))
 
+This package also provides a higher level API
+(:class:`~zope.lifecycleevent.interfaces.IZopeLifecycleEvent`) that
+sends the notifications for you. For example, instead of the above, we
+could use this API to send the :func:`~zope.lifecycleevent.created`
+and :func:`~zope.lifecycleevent.modified` events:
+
+    >>> from zope.lifecycleevent import created, modified
+
+    >>> obj = Sample()
+    >>> created(obj)
+
+    >>> obj.modified = True
+    >>> modified(obj)
+
 Some event consumers like catalogs and caches may need more information to
 update themselves in an efficient manner. The necessary information can be
-provided as optional modification descriptions of the ObjectModifiedEvent.
+provided as optional modification descriptions of the :class:`~.ObjectModifiedEvent`.
 
 Some examples:
 

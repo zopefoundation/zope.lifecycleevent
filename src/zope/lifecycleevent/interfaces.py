@@ -20,6 +20,11 @@ from zope.interface import interfaces
 
 
 class IZopeLifecycleEvent(Interface):
+    """
+    High-level functions for sending events.
+
+    These are implemented by the :mod:`zope.lifecycleevent` module.
+    """
 
     def created(object):
         """Send an IObjectCreatedEvent for `object`."""
