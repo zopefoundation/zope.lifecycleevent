@@ -1,15 +1,18 @@
 language: python
 sudo: false
 python:
-  - 2.7
-  - 3.3
-  - 3.4
-  - 3.5
-  - pypy
-  - pypy3
+    - 2.7
+    - 3.3
+    - 3.4
+    - 3.5
+    - pypy
+    - pypy3
 install:
-  - pip install tox-travis
+    - pip install -U pip setuptools # need updated pip for caching
+    - pip install .[test]
 script:
-  - tox
+    - python -m zope.lifecycleevent.tests
 notifications:
     email: false
+
+cache: pip
