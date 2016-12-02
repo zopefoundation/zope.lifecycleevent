@@ -39,6 +39,7 @@ class ObjectCreatedEvent(ObjectEvent):
 
 
 def created(object):
+    "See :meth:`.IZopeLifecycleEvent.created`"
     notify(ObjectCreatedEvent(object))
 
 
@@ -71,6 +72,7 @@ class ObjectModifiedEvent(ObjectEvent):
 
 
 def modified(object, *descriptions):
+    "See :meth:`.IZopeLifecycleEvent.modified`"
     notify(ObjectModifiedEvent(object, *descriptions))
 
 
@@ -84,6 +86,7 @@ class ObjectCopiedEvent(ObjectCreatedEvent):
 
 
 def copied(object, original):
+    "See :meth:`.IZopeLifecycleEvent.copied`"
     notify(ObjectCopiedEvent(object, original))
 
 
@@ -100,6 +103,7 @@ class ObjectMovedEvent(ObjectEvent):
 
 
 def moved(object, oldParent, oldName, newParent, newName):
+    "See :meth:`.IZopeLifecycleEvent.moved`"
     notify(ObjectMovedEvent(object, oldParent, oldName, newParent, newName))
 
 
@@ -116,6 +120,7 @@ class ObjectAddedEvent(ObjectMovedEvent):
 
 
 def added(object, newParent=None, newName=None):
+    "See :meth:`.IZopeLifecycleEvent.added`"
     notify(ObjectAddedEvent(object, newParent, newName))
 
 
@@ -132,4 +137,5 @@ class ObjectRemovedEvent(ObjectMovedEvent):
 
 
 def removed(object, oldParent=None, oldName=None):
+    "See :meth:`.IZopeLifecycleEvent.removed`"
     notify(ObjectRemovedEvent(object, oldParent, oldName))
