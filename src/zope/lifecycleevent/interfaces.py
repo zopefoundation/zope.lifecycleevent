@@ -27,10 +27,10 @@ class IZopeLifecycleEvent(Interface):
     """
 
     def created(object):
-        """Send an :class:`IObjectCreatedEvent` for ``object``."""
+        """Send an :class:`~.IObjectCreatedEvent` for ``object``."""
 
     def modified(object, *descriptions):
-        """Send an :class:`IObjectModifiedEvent` for ``object``.
+        """Send an :class:`~.IObjectModifiedEvent` for ``object``.
 
         ``descriptions`` is a sequence of interfaces or fields which were
         updated. The :class:`IAttributes` and :class:`ISequence` helpers
@@ -39,14 +39,14 @@ class IZopeLifecycleEvent(Interface):
         """
 
     def copied(object, original):
-        """Send an :class:`IObjectCopiedEvent` for ``object``.
+        """Send an :class:`~.IObjectCopiedEvent` for ``object``.
 
         ``original`` is the object the copy was created from.
 
         """
 
     def moved(object, oldParent, oldName, newParent, newName):
-        """Send an :class:`IObjectMovedEvent` for ``object``.
+        """Send an :class:`~.IObjectMovedEvent` for ``object``.
 
         ``oldParent`` is the container ``object`` was removed from.
         ``oldName`` was the name used to store ``object`` in ``oldParent``.
@@ -59,7 +59,7 @@ class IZopeLifecycleEvent(Interface):
         """
 
     def added(object, newParent=None, newName=None):
-        """Send an :class:`IObjectAddedEvent` for ``object``.
+        """Send an :class:`~.IObjectAddedEvent` for ``object``.
 
         ``newParent`` is the container ``object`` was added to.
         ``newName`` is the name used to store ``object`` in the container.
@@ -70,7 +70,7 @@ class IZopeLifecycleEvent(Interface):
         """
 
     def removed(object, oldParent=None, oldName=None):
-        """Send an :class:`IObjectRemovedEvent` for ``object``.
+        """Send an :class:`~.IObjectRemovedEvent` for ``object``.
 
         ``oldParent`` is the container ``object`` was removed from.
         ``oldName`` was the name used to store ``object`` in `oldParent`.
