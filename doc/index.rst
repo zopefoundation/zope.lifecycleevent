@@ -2,11 +2,12 @@
  What is zope.lifecycleevent?
 ==============================
 
-.. include:: ../src/zope/lifecycleevent/README.txt
+.. include:: ../README.rst
 
 .. toctree::
    :maxdepth: 1
 
+   quickstart
    api
 
 .. toctree::
