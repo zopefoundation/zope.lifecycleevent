@@ -12,4 +12,6 @@ develop-eggs
 parts
 doc/_build
 .coverage
+.coverage.*
+coverage.xml
 htmlcov

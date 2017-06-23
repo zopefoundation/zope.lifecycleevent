@@ -16,11 +16,80 @@
 import doctest
 import unittest
 
+from zope import interface
+
 import zope.component.testing
 from zope.lifecycleevent import ObjectCreatedEvent, created
 from zope.lifecycleevent import Attributes, Sequence
 from zope.lifecycleevent import ObjectModifiedEvent, modified
 from zope.lifecycleevent import ObjectCopiedEvent, copied
+from zope.lifecycleevent import ObjectMovedEvent, moved
+from zope.lifecycleevent import ObjectRemovedEvent, removed
+from zope.lifecycleevent import ObjectAddedEvent, added
+
+from zope.interface.verify import verifyObject
+from zope.interface.verify import verifyClass
+
+
+class Context(object):
+    pass
+
+
+class _AbstractListenerCase(object):
+
+    def setUp(self):
+        super(_AbstractListenerCase, self).setUp()
+        from zope.event import subscribers
+        self._old_subscribers = subscribers[:]
+        self.listener = []
+        subscribers[:] = [self.listener.append]
+
+    def tearDown(self):
+        from zope.event import subscribers
+        subscribers[:] = self._old_subscribers
+        super(_AbstractListenerCase, self).tearDown()
+
+
+class _AbstractEventCase(_AbstractListenerCase):
+
+    klass = None
+    object = object()
+    notifier = None
+
+    def _getTargetClass(self):
+        return self.klass
+
+    def _getInitArgs(self):
+        return (self.object,)
+
+    def _makeOne(self):
+        return self._getTargetClass()(*self._getInitArgs())
+
+    def setUp(self):
+        super(_AbstractEventCase, self).setUp()
+        self.event = self._makeOne()
+
+    def testGetObject(self):
+        self.assertEqual(self.event.object, self.object)
+
+    def test_verifyObject(self):
+        iface = list(interface.providedBy(self.event).flattened())[0]
+        verifyObject(iface, self.event)
+
+    def test_verifyClass(self):
+        iface = list(interface.implementedBy(type(self.event)).flattened())[0]
+        verifyClass(iface, self._getTargetClass())
+
+    def test_notify(self):
+        notifier = type(self).notifier
+        try:
+            notifier = notifier.__func__
+        except AttributeError:
+            pass # Python 3
+        notifier(*self._getInitArgs())
+        self.assertEqual(len(self.listener), 1)
+        self.assertEqual(self.listener[-1].object, self.object)
+        return self.listener[-1]
 
 
 class TestSequence(unittest.TestCase):
@@ -40,6 +109,7 @@ class TestSequence(unittest.TestCase):
 
 
 class TestAttributes(unittest.TestCase):
+
     def testAttributes(self):
         from zope.lifecycleevent.interfaces import IObjectMovedEvent
         desc = Attributes(IObjectMovedEvent, "newName", "newParent")
@@ -47,54 +117,17 @@ class TestAttributes(unittest.TestCase):
         self.assertEqual(desc.attributes, ('newName', 'newParent'))
 
 
-class TestObjectCreatedEvent(unittest.TestCase):
+class TestObjectCreatedEvent(_AbstractEventCase,
+                             unittest.TestCase):
 
     klass = ObjectCreatedEvent
-    object = object()
+    notifier = created
 
-    def setUp(self):
-        from zope.event import subscribers
-        self._old_subscribers = subscribers[:]
-        self.listener = []
-        subscribers[:] = [self.listener.append]
-        self.event = self.klass(self.object)
-
-    def tearDown(self):
-        from zope.event import subscribers
-        subscribers[:] = self._old_subscribers
-
-    def testGetObject(self):
-        self.assertEqual(self.event.object, self.object)
-
-    def testCreated(self):
-        created(self.object)
-        self.assertEqual(len(self.listener), 1)
-        self.assertEqual(self.listener[-1].object, self.object)
-
-
-class TestObjectModifiedEvent(unittest.TestCase):
+class TestObjectModifiedEvent(_AbstractEventCase,
+                              unittest.TestCase):
 
     klass = ObjectModifiedEvent
-    object = object()
-
-    def setUp(self):
-        from zope.event import subscribers
-        self._old_subscribers = subscribers[:]
-        self.listener = []
-        subscribers[:] = [self.listener.append]
-        self.event = self.klass(self.object)
-
-    def tearDown(self):
-        from zope.event import subscribers
-        subscribers[:] = self._old_subscribers
-
-    def testGetObject(self):
-        self.assertEqual(self.event.object, self.object)
-
-    def testModified(self):
-        modified(self.object)
-        self.assertEqual(len(self.listener), 1)
-        self.assertEqual(self.listener[-1].object, self.object)
+    notifier = modified
 
     def testAttributes(self):
         from zope.interface import implementer, Interface, Attribute
@@ -114,79 +147,59 @@ class TestObjectModifiedEvent(unittest.TestCase):
         self.assertEqual(self.listener[-1].descriptions, (attrs,))
 
 
-class TestObjectCopiedEvent(unittest.TestCase):
+class TestObjectCopiedEvent(_AbstractEventCase,
+                            unittest.TestCase):
 
     klass = ObjectCopiedEvent
     original = object()
-    object = object()
+    notifier = copied
 
-    def setUp(self):
-        from zope.event import subscribers
-        self._old_subscribers = subscribers[:]
-        self.listener = []
-        subscribers[:] = [self.listener.append]
-        self.event = self.klass(self.object, self.original)
+    def _getInitArgs(self):
+        return (self.object, self.original)
 
-    def tearDown(self):
-        from zope.event import subscribers
-        subscribers[:] = self._old_subscribers
-
-    def testGetObject(self):
-        self.assertEqual(self.event.object, self.object)
-
-    def testCopied(self):
-        copied(self.object, self.original)
-        self.assertEqual(len(self.listener), 1)
-        self.assertEqual(self.listener[-1].object, self.object)
-        self.assertEqual(self.listener[-1].original, self.original)
+    def test_notify(self):
+        delivered = super(TestObjectCopiedEvent, self).test_notify()
+        self.assertEqual(delivered.original, self.original)
 
 
-class TestObjectMovedEvent(unittest.TestCase):
+class TestObjectMovedEvent(_AbstractEventCase,
+                           unittest.TestCase):
 
-    def _getTargetClass(self):
-        from zope.lifecycleevent import ObjectMovedEvent
-        return ObjectMovedEvent
+    klass = ObjectMovedEvent
+    object = Context()
+    old_parent = Context()
+    new_parent = Context()
+    notifier = moved
 
-    def _makeOne(self, *arg):
-        return self._getTargetClass()(*arg)
+    def _getInitArgs(self):
+        return (self.object,
+                self.old_parent, 'old_name',
+                self.new_parent, 'new_name')
 
     def test_it(self):
-        ob = Context()
-        old_parent = Context()
-        new_parent = Context()
-        event = self._makeOne(ob, old_parent, 'old_name', new_parent,
-                              'new_name')
-        self.assertEqual(event.object, ob)
-        self.assertEqual(event.oldParent, old_parent)
-        self.assertEqual(event.newParent, new_parent)
+        event = self.event
+        self.assertEqual(event.object, self.object)
+        self.assertEqual(event.oldParent, self.old_parent)
+        self.assertEqual(event.newParent, self.new_parent)
         self.assertEqual(event.newName, 'new_name')
         self.assertEqual(event.oldName, 'old_name')
 
-    def test_verifyClass(self):
-        from zope.interface.verify import verifyClass
-        from zope.lifecycleevent.interfaces import IObjectMovedEvent
-        verifyClass(IObjectMovedEvent, self._getTargetClass())
 
-    def test_verifyObject(self):
-        from zope.interface.verify import verifyObject
-        from zope.lifecycleevent.interfaces import IObjectMovedEvent
-        verifyObject(IObjectMovedEvent,
-                     self._makeOne(None, None, None, None, None))
+class TestObjectAddedEvent(_AbstractEventCase,
+                           unittest.TestCase):
 
+    klass = ObjectAddedEvent
+    parent = Context()
+    name = 'new_name'
+    notifier = added
 
-class TestObjectAddedEvent(unittest.TestCase):
-
-    def _getTargetClass(self):
-        from zope.lifecycleevent import ObjectAddedEvent
-        return ObjectAddedEvent
-
-    def _makeOne(self, *arg):
-        return self._getTargetClass()(*arg)
+    def _getInitArgs(self):
+        return (self.object, self.parent, self.name)
 
     def test_it(self):
-        ob = Context()
-        new_parent = Context()
-        event = self._makeOne(ob, new_parent, 'new_name')
+        ob = self.object
+        new_parent = self.parent
+        event = self.event
         self.assertEqual(event.object, ob)
         self.assertEqual(event.newParent, new_parent)
         self.assertEqual(event.newName, 'new_name')
@@ -194,43 +207,35 @@ class TestObjectAddedEvent(unittest.TestCase):
         self.assertEqual(event.oldName, None)
 
     def test_it_Nones(self):
-        ob = Context()
+        self.object = ob = Context()
         new_parent = Context()
+        self.parent = None
+        self.name = None
         ob.__parent__ = new_parent
         ob.__name__ = 'new_name'
-        event = self._makeOne(ob, None, None)
+        event = self._makeOne()
         self.assertEqual(event.object, ob)
         self.assertEqual(event.newParent, new_parent)
         self.assertEqual(event.newName, 'new_name')
         self.assertEqual(event.oldParent, None)
         self.assertEqual(event.oldName, None)
 
-    def test_verifyClass(self):
-        from zope.interface.verify import verifyClass
-        from zope.lifecycleevent.interfaces import IObjectAddedEvent
-        verifyClass(IObjectAddedEvent, self._getTargetClass())
 
-    def test_verifyObject(self):
-        from zope.interface.verify import verifyObject
-        from zope.lifecycleevent.interfaces import IObjectAddedEvent
-        parent = Context()
-        ob = Context()
-        verifyObject(IObjectAddedEvent, self._makeOne(ob, parent, 'new_name'))
+class TestObjectRemovedEvent(_AbstractEventCase,
+                             unittest.TestCase):
 
+    klass = ObjectRemovedEvent
+    old_parent = Context()
+    name = 'name'
+    notifier = removed
 
-class TestObjectRemovedEvent(unittest.TestCase):
-
-    def _getTargetClass(self):
-        from zope.lifecycleevent import ObjectRemovedEvent
-        return ObjectRemovedEvent
-
-    def _makeOne(self, *arg):
-        return self._getTargetClass()(*arg)
+    def _getInitArgs(self):
+        return (self.object, self.old_parent, self.name)
 
     def test_it(self):
-        ob = Context()
-        parent = Context()
-        event = self._makeOne(ob, parent, 'name')
+        ob = self.object
+        parent = self.old_parent
+        event = self.event
         self.assertEqual(event.object, ob)
         self.assertEqual(event.newParent, None)
         self.assertEqual(event.newName, None)
@@ -238,55 +243,27 @@ class TestObjectRemovedEvent(unittest.TestCase):
         self.assertEqual(event.oldName, 'name')
 
     def test_it_Nones(self):
-        ob = Context()
+        self.object = ob = Context()
         parent = Context()
+        self.old_parent = None
+        self.name = None
         ob.__parent__ = parent
         ob.__name__ = 'name'
-        event = self._makeOne(ob, None, None)
+        event = self._makeOne()
         self.assertEqual(event.object, ob)
         self.assertEqual(event.newParent, None)
         self.assertEqual(event.newName,  None)
         self.assertEqual(event.oldParent, parent)
         self.assertEqual(event.oldName, 'name')
 
-    def test_verifyClass(self):
-        from zope.interface.verify import verifyClass
-        from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-        verifyClass(IObjectRemovedEvent, self._getTargetClass())
 
-    def test_verifyObject(self):
-        from zope.interface.verify import verifyObject
-        from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-        parent = object()
-        ob = object()
-        verifyObject(IObjectRemovedEvent, self._makeOne(ob, parent, 'new_name'))
-
-
-class DummySubscriber:
-
-    event = None
-
-    def __call__(self, event):
-        self.event = event
-
-
-class TestMoved(unittest.TestCase):
-    """Testing .moved()."""
-
-    def setUp(self):
-        from zope.event import subscribers
-        self._old_subscribers = subscribers[:]
-        subscribers[:] = [DummySubscriber()]
-
-    def tearDown(self):
-        from zope.event import subscribers
-        subscribers[:] = self._old_subscribers
+class TestMoved(_AbstractListenerCase,
+                unittest.TestCase):
 
     def test_it(self):
-        from zope.lifecycleevent import moved, ObjectMovedEvent
-        from zope.event import subscribers
         moved('object', 'oldParent', 'oldName', 'newParent', 'newName')
-        event = subscribers[0].event
+        self.assertEqual(1, len(self.listener))
+        event = self.listener[0]
         self.assertTrue(isinstance(event, ObjectMovedEvent))
         self.assertEqual(event.object, 'object')
         self.assertEqual(event.oldParent, 'oldParent')
@@ -295,24 +272,12 @@ class TestMoved(unittest.TestCase):
         self.assertEqual(event.newName, 'newName')
 
 
-class Context:
-    pass
-
-
 def test_suite():
     return unittest.TestSuite((
-        unittest.makeSuite(TestAttributes),
-        unittest.makeSuite(TestSequence),
-        unittest.makeSuite(TestObjectCreatedEvent),
-        unittest.makeSuite(TestObjectModifiedEvent),
-        unittest.makeSuite(TestObjectCopiedEvent),
-        unittest.makeSuite(TestObjectMovedEvent),
-        unittest.makeSuite(TestObjectAddedEvent),
-        unittest.makeSuite(TestObjectRemovedEvent),
-        unittest.makeSuite(TestMoved),
+        unittest.defaultTestLoader.loadTestsFromName(__name__),
         doctest.DocFileSuite('README.txt',
                              tearDown=zope.component.testing.tearDown),
-        ))
+    ))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')
