@@ -18,7 +18,9 @@ import unittest
 
 from zope import interface
 
-import zope.component.testing
+from zope.component import testing
+from zope.testing import module
+
 from zope.lifecycleevent import ObjectCreatedEvent, created
 from zope.lifecycleevent import Attributes, Sequence
 from zope.lifecycleevent import ObjectModifiedEvent, modified
@@ -271,12 +273,23 @@ class TestMoved(_AbstractListenerCase,
         self.assertEqual(event.newParent, 'newParent')
         self.assertEqual(event.newName, 'newName')
 
+def setUp(test):
+    testing.setUp(test)
+    module.setUp(test)
+
+def tearDown(test):
+    module.tearDown(test)
+    testing.tearDown(test)
 
 def test_suite():
     return unittest.TestSuite((
         unittest.defaultTestLoader.loadTestsFromName(__name__),
         doctest.DocFileSuite('README.rst'),
-        doctest.DocFileSuite('../../../doc/manual.rst'),
+        doctest.DocFileSuite('manual.rst'),
+        doctest.DocFileSuite('handling.rst',
+                             setUp=setUp,
+                             tearDown=tearDown,
+                             optionflags=doctest.ELLIPSIS),
     ))
 
 if __name__ == '__main__':

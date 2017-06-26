@@ -22,18 +22,11 @@ event in a single function call.
    :doc:`manual`.
 
 .. note:: This document will not discuss actually *handling* these
-   events (setting up *subscribers* for them). For basic information on
-   that topic, see :mod:`zope.event's documentation <zope.event>`
-   or :doc:`XXXWRITEME` for more flexible uses.
-
-.. TODO: Need to talk about the fact that these are IObjectEvents and so
-   will be re-dispatched based on the interface of the object in
-   addition to the interface of the event. So it's usually not
-   necessary to subclass the event types.
+   events (setting up *subscribers* for them). For information on
+   that topic, see :doc:`handling`.
 
 We will go through the events in approximate order of how they would
 be used to follow the life-cycle of an object.
-
 
 Creation
 ========

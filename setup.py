@@ -67,6 +67,10 @@ setup(
     extras_require={
         'test': [
             'zope.component',
+            # NOTE: zope.configuration relies on zope.schema,
+            # which relies on zope.event, so we have a cycle
+            'zope.configuration',
+            'zope.testing',
             'zope.testrunner',
         ],
     },

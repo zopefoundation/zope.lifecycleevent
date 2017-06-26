@@ -9,6 +9,7 @@
 
    quickstart
    manual
+   handling
    api
 
 .. toctree::
