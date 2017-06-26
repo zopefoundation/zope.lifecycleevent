@@ -28,7 +28,7 @@ def read(*rnames):
 setup(
     name='zope.lifecycleevent',
     version=read('version.txt').strip(),
-    url='http://pypi.python.org/pypi/zope.lifecycleevent',
+    url='http://github.com/zopefoundation/zope.lifecycleevent',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     license='ZPL 2.1',
@@ -40,31 +40,36 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development',
-        ],
+    ],
     description='Object life-cycle events',
     long_description=\
         read('README.rst')
         + '\n\n' +
         read('CHANGES.rst'),
-
+    keywords="event lifecycle zope component interface flexible",
     packages=find_packages('src'),
     package_dir={'': 'src'},
     namespace_packages=['zope',],
     include_package_data=True,
-    install_requires=['setuptools',
-                      'zope.interface',
-                      'zope.event'],
-    extras_require=dict(
-        test = ['zope.component']
-        ),
+    install_requires=[
+        'setuptools',
+        'zope.interface',
+        'zope.event'
+    ],
+    extras_require={
+        'test': [
+            'zope.component',
+            'zope.testrunner',
+        ],
+    },
     test_suite='zope.lifecycleevent.tests.test_suite',
     zip_safe=False,
-    )
+)

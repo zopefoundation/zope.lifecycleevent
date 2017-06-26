@@ -1,16 +1,18 @@
-Changes
-=======
+=========
+ Changes
+=========
+
 
 4.2.0 (unreleased)
-------------------
+==================
 
-- Add support for Python 3.5.
+- Add support for Python 3.5 and 3.6.
 
-- Drop support for Python 2.6.
+- Drop support for Python 2.6 and 3.3.
 
 
 4.1.0 (2014-12-27)
-------------------
+==================
 
 - Add support for PyPy3.
 
@@ -18,7 +20,7 @@ Changes
 
 
 4.0.3 (2013-09-12)
-------------------
+==================
 
 - Drop the dependency on ``zope.component`` as the interface and
   implementation of ``ObjectEvent`` is now in ``zope.interface``.
@@ -28,19 +30,19 @@ Changes
 
 
 4.0.2 (2013-03-08)
-------------------
+==================
 
 - Add Trove classifiers indicating CPython and PyPy support.
 
 
 4.0.1 (2013-02-11)
-------------------
+==================
 
 - Add `tox.ini`.
 
 
 4.0.0 (2013-02-11)
-------------------
+==================
 
 - Test coverage at 100%.
 
@@ -53,30 +55,30 @@ Changes
 
 
 3.7.0 (2011-03-17)
-------------------
+==================
 
 - Add convenience functions to parallel ``zope.lifecycleevent.modified``
   for the other events defined in this package.
 
 
 3.6.2 (2010-09-25)
-------------------
+==================
 
 - Add not declared, but needed test dependency on ``zope.component [test]``.
 
 3.6.1 (2010-04-30)
-------------------
+==================
 
 - Remove dependency on undeclared ``zope.testing.doctest``.
 
 3.6.0 (2009-12-29)
-------------------
+==================
 
 - Refactor tests to lose ``zope.annotation`` and ``zope.dublincore`` as
   dependencies.
 
 3.5.2 (2009-05-17)
-------------------
+==================
 
 - Copy ``IObjectMovedEvent``, ``IObjectAddedEvent``,
   ``IObjectRemovedEvent`` interfaces and ``ObjectMovedEvent``,
@@ -87,7 +89,7 @@ Changes
   ``zope.container`` (which has many).
 
 3.5.1 (2009-03-09)
-------------------
+==================
 
 - Remove deprecated code and therefore dependency on ``zope.deferredimport``.
 
@@ -97,13 +99,13 @@ Changes
 - Update package's description and documentation.
 
 3.5.0 (2009-01-31)
-------------------
+==================
 
 - Remove old module declarations from classes.
 
 - Use ``zope.container`` instead of ``zope.app.container``.
 
 3.4.0 (2007-09-01)
-------------------
+==================
 
 Initial release as an independent package

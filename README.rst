@@ -1,5 +1,6 @@
-``zope.lifecycleevent``
-=======================
+=========================
+ ``zope.lifecycleevent``
+=========================
 
 .. image:: https://travis-ci.org/zopefoundation/zope.lifecycleevent.png?branch=master
         :target: https://travis-ci.org/zopefoundation/zope.lifecycleevent
