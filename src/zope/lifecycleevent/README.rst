@@ -36,8 +36,8 @@ be used to follow the life-cycle of an object.
 Creation
 ========
 
-The first event is :class:`.~IObjectCreatedEvent`, implemented by
-:class:`.~ObjectCreatedEvent`, which is used to communicate that a single object
+The first event is :class:`~.IObjectCreatedEvent`, implemented by
+:class:`~.ObjectCreatedEvent`, which is used to communicate that a single object
 has been created. It can be sent with the
 :func:`zope.lifecycleevent.created` function.
 
@@ -57,18 +57,23 @@ any time and is implemented with :class:`~.IObjectCopiedEvent`,
 :class:`~.ObjectCopiedEvent`, or the API
 :func:`zope.lifecycleevent.copied`.
 
+    >>> from zope.lifecycleevent import copied
     >>> import pickle
     >>> copy = pickle.loads(pickle.dumps(obj))
-
-    >>> from zope.lifecycleevent import copied
     >>> copied(copy, obj)
+
+.. note::
+   Handlers for :class:`~.IObjectCreatedEvent` can expect to
+   receive events for :class:`~.IObjectCopiedEvent` as well.
+
+.. _addition:
 
 Addition
 ========
 
 After objects are created, it is common to *add* them somewhere for
 storage or access. This can be accomplished with the
-:class:`~IObjectAddedEvent` and its implementation
+:class:`~.IObjectAddedEvent` and its implementation
 :class:`~.ObjectAddedEvent`, or the API
 :func:`zope.lifecycleevent.added`.
 
@@ -79,12 +84,35 @@ storage or access. This can be accomplished with the
     >>> container['name'] = obj
     >>> added(obj, container, 'name')
 
+If the object being added has a non-None ``__name__`` or ``__parent__``
+attribute, we can omit those values when we call ``added`` and the
+attributes will be used.
+
+    >>> class Location(object):
+    ...    __parent__ = None
+    ...    __name__ = None
+
+    >>> location = Location()
+    >>> location.__name__ = "location"
+    >>> location.__parent__ = container
+    >>> container[location.__name__] = location
+    >>> added(location)
+
+.. tip::
+   The interface :class:`zope.location.interfaces.ILocation`
+   defines these attributes (although we don't require the object to
+   implement that interface), and containers that implement
+   :class:`zope.container.interfaces.IWriteContainer` are expected to
+   set them (such containers will also automatically send the
+   :class:`~.IObjectAddedEvent`).
+
+
 Modification
 ============
 
 One of the most common types of events used from this package is the
-:class:`IObjectModifiedEvent` (implemented by
-:class:`ObjectModifiedEvent`) that represents object modification.
+:class:`~.IObjectModifiedEvent` (implemented by
+:class:`~.ObjectModifiedEvent`) that represents object modification.
 
 In the simplest case, it may be enough to simply notify interested
 parties that the object has changed. Like the other events, this can
@@ -103,7 +131,7 @@ Some event consumers like indexes (catalogs) and caches may need more
 information to update themselves in an efficient manner. The necessary
 information can be provided as optional "modification descriptions" of
 the :class:`~.ObjectModifiedEvent` (or again, via the
-:func:`.zope.lifecycleevent.moved` function).
+:func:`~zope.lifecycleevent.modified` function).
 
 This package doesn't strictly define what a "modification description"
 must be. The most common (and thus most interoperable) descriptions
@@ -216,16 +244,38 @@ Movement
 ========
 
 Sometimes objects move from one place to another. This can be
-described with the interface :class:`.~IObjectMovedEvent`, its
-implementation :class:`ObjectMovedEvent` or the API
+described with the interface :class:`~.IObjectMovedEvent`, its
+implementation :class:`~.ObjectMovedEvent` or the API
 :func:`zope.lifecycleevent.moved`.
+
+Objects may move within a single container by changing their name:
+
+   >>> from zope.lifecycleevent import moved
+   >>> container['new name'] = obj
+   >>> del container['name']
+   >>> moved(obj,
+   ...       oldParent=container, oldName='name',
+   ...       newParent=container, newName='new name')
+
+Or they may move to a new container (under the same name, or a
+different name):
 
    >>> container2 = {}
    >>> container2['new name'] = obj
-   >>> del container['name']
+   >>> del container['new name']
+   >>> moved(obj,
+   ...       oldParent=container,  oldName='new name',
+   ...       newParent=container2, newName='new name')
 
-   >>> from zope.lifecycleevent import moved
-   >>> moved(obj, container, 'name', container2, 'new name')
+Unlike :ref:`addition <addition>`, any ``__name__`` and ``__parent__``
+attribute on the object are ignored and must be provided explicitly.
+
+.. tip::
+   Much like the addition of objects,
+   :class:`zope.container.interfaces.IWriteContainer` implementations
+   are expected to update the ``__name__`` and ``__parent__``
+   attributes automatically, and to automatically send the appropriate
+   movement event.
 
 Removal
 =======
@@ -234,12 +284,24 @@ Finally, objects can be removed from the system altogether with
 :class:`IObjectRemovedEvent`, :class:`ObjectRemovedEvent` and
 :func:`zope.lifecycleevent.removed`.
 
-.. note:: This is a special case of movement where the new parent and
+    >>> from zope.lifecycleevent import removed
+    >>> del container2['new name']
+    >>> removed(obj, container2, 'new name')
+
+.. note::
+   This is a special case of movement where the new parent and
    new name are always ``None``. Handlers for
    :class:`~.IObjectMovedEvent` can expect to receive events for
    :class:`~.IObjectRemovedEvent` as well.
 
-    >>> del container2['new name']
+If the object being removed provides the ``__name__`` or
+``__parent__`` attribute, those arguments can be omitted and the
+attributes will be used instead.
 
-    >>> from zope.lifecycleevent import removed
-    >>> removed(obj, container2, 'new name')
+    >>> location = container['location']
+    >>> del container[location.__name__]
+    >>> removed(location)
+
+.. tip::
+   Once again, :class:`~zope.container.interfaces.IWriteContainer`
+   implementations will send the correct event automatically.

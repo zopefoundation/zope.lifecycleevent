@@ -352,6 +352,8 @@ intersphinx_mapping = {
     'https://zopeinterface.readthedocs.io/en/latest': None,
     'https://zopeevent.readthedocs.io/en/latest/': None,
     'https://zopecomponent.readthedocs.io/en/latest/': None,
+    'https://zopelocation.readthedocs.io/en/latest/': None,
+    'https://zopecontainer.readthedocs.io/en/latest/': None,
 }
 
 extlinks = {'issue': ('https://github.com/zopefoundation/zope.lifecycleevent/issues/%s',
