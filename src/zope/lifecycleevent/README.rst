@@ -2,6 +2,8 @@
  Quick Start
 =============
 
+.. module:: zope.lifecycleevent
+
 This document describes the various event types defined by this
 package and provides some basic examples of using them to inform parts
 of the system about object changes.
@@ -17,7 +19,7 @@ event in a single function call.
    :func:`zope.event.notify`. Here we will only discuss using these
    functions; for more information on the advanced usage of when and
    how to construct and send event objects manually, see
-   :doc:`XXXAdvancedUsage`.
+   :doc:`manual`.
 
 .. note:: This document will not discuss actually *handling* these
    events (setting up *subscribers* for them). For basic information on

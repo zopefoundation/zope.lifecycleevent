@@ -276,6 +276,7 @@ def test_suite():
     return unittest.TestSuite((
         unittest.defaultTestLoader.loadTestsFromName(__name__),
         doctest.DocFileSuite('README.rst'),
+        doctest.DocFileSuite('../../../doc/manual.rst'),
     ))
 
 if __name__ == '__main__':

@@ -8,6 +8,7 @@
    :maxdepth: 1
 
    quickstart
+   manual
    api
 
 .. toctree::
