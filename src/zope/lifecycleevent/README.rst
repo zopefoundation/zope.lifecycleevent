@@ -8,7 +8,7 @@ of the system about object changes.
 
 All events have three components: an *interface* defining the event's
 structure, a default *implementation* of that interface (the *event
-object*), and a higher-level *convenience* function (defined by the
+object*), and a high-level *convenience function* (defined by the
 :class:`~.IZopeLifecycleEvent` interface) for easily sending that
 event in a single function call.
 
@@ -17,11 +17,19 @@ event in a single function call.
    :func:`zope.event.notify`. We will only demonstrate some examples
    of this equivalence.
 
+.. TODO: Need to refactor to move discussion of
+   manually sending events somewhere else. That's an advanced usage.
+
 .. note:: This document will not discuss actually *handling* these
    events (setting up *subscribers* for them). For more information on
    that topic, see `zope.event's documentation
    <http://zopeevent.readthedocs.io/en/latest/classhandler.html>`_
    (for basic uses) or :doc:`XXXWRITEME` for more flexible uses.
+
+.. TODO: Need to talk about the fact that these are IObjectEvents and so
+   will be re-dispatched based on the interface of the object in
+   addition to the interface of the event. So it's usually not
+   necessary to subclass the event types.
 
 We will go through the events in approximate order of how they would
 be used to follow the life-cycle of an object.
@@ -80,10 +88,6 @@ storage or access. This can be accomplished with the
     >>> container['name'] = obj
     >>> added(obj, container, 'name')
 
-
-    >>> obj['modified'] = True
-
-
 Modification
 ============
 
@@ -141,27 +145,37 @@ what attribute of the interface we modified. There is a helper class
     >>> from zope.lifecycleevent import Attributes
     >>> modified(obj, Attributes(IFile, "data"))
 
-When an interface attribute is a sequence or container, we can specify
-the individual keys that we changed using
-:class:`zope.lifecycleevent.Sequence`:
+.. TODO: Discuss modifying multiple attributes.
 
-    >>> class IFiles(Interface):
-    ...    files = Attribute("Sequence of IFile objects")
-    >>> @implementer(IFiles)
-    ... class Files(object):
-    ...    pass
+When an object is a sequence or container, we can specify
+the individual indexes or keys that we changed using
+:class:`zope.lifecycleevent.Sequence`.
 
-    >>> files = Files()
-    >>> files.files = [File()]
+First we'll need to define a sequence and create an instance:
+
+    >>> from zope.interface.common.sequence import ISequence
+    >>> class IFileList(ISequence):
+    ...    "A sequence of IFile objects."
+    >>> @implementer(IFileList)
+    ... class FileList(list):
+    ...   pass
+
+    >>> files = FileList()
     >>> created(files)
 
+Now we can modify the sequence by adding an object to it:
+
+    >>> files.append(File())
     >>> from zope.lifecycleevent import Sequence
-    >>> files.files.append(File())
-    >>> modified(files, Sequence(IFiles, len(files.files) - 1))
+    >>> modified(files, Sequence(IFileList, len(files) - 1))
+
+We can also replace an existing object:
+
+    >>> files[0] = File()
+    >>> modified(files, Sequence(IFileList, 0))
 
 Of course these can be combined in any order and length necessary to
 describe the modifications fully.
-
 
 Movement
 ========

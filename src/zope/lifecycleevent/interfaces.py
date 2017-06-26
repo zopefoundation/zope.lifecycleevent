@@ -99,7 +99,10 @@ class IObjectCopiedEvent(IObjectCreatedEvent):
 class IObjectModifiedEvent(interfaces.IObjectEvent):
     """An object has been modified"""
 
-    descriptions = Attribute("The supplied modification descriptions, often interfaces.")
+    descriptions = Attribute("""The supplied modification descriptions.
+
+    These may be interfaces or implementations of :class:`IModificationDescription`
+    such as :class:`~.Attributes` or :class:`~.Sequence`""")
 
 
 class IModificationDescription(Interface):

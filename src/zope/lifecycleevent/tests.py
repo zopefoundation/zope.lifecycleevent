@@ -275,7 +275,7 @@ class TestMoved(_AbstractListenerCase,
 def test_suite():
     return unittest.TestSuite((
         unittest.defaultTestLoader.loadTestsFromName(__name__),
-        doctest.DocFileSuite('README.txt',
+        doctest.DocFileSuite('README.rst'),
     ))
 
 if __name__ == '__main__':
