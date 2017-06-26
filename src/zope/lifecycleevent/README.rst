@@ -14,17 +14,15 @@ event in a single function call.
 
 .. note:: The convenience functions are simple wrappers for
    constructing an event object and sending it via
-   :func:`zope.event.notify`. We will only demonstrate some examples
-   of this equivalence.
-
-.. TODO: Need to refactor to move discussion of
-   manually sending events somewhere else. That's an advanced usage.
+   :func:`zope.event.notify`. Here we will only discuss using these
+   functions; for more information on the advanced usage of when and
+   how to construct and send event objects manually, see
+   :doc:`XXXAdvancedUsage`.
 
 .. note:: This document will not discuss actually *handling* these
-   events (setting up *subscribers* for them). For more information on
-   that topic, see `zope.event's documentation
-   <http://zopeevent.readthedocs.io/en/latest/classhandler.html>`_
-   (for basic uses) or :doc:`XXXWRITEME` for more flexible uses.
+   events (setting up *subscribers* for them). For basic information on
+   that topic, see :mod:`zope.event's documentation <zope.event>`
+   or :doc:`XXXWRITEME` for more flexible uses.
 
 .. TODO: Need to talk about the fact that these are IObjectEvents and so
    will be re-dispatched based on the interface of the object in
@@ -46,16 +44,9 @@ has been created. It can be sent with the
 
 For example:
 
-    >>> from zope.event import notify
-    >>> from zope.lifecycleevent import ObjectCreatedEvent
+    >>> from zope.lifecycleevent import created
 
     >>> obj = {}
-    >>> notify(ObjectCreatedEvent(obj))
-
-Alternately, using the higher-level API, we could write that like
-this:
-
-    >>> from zope.lifecycleevent import created
     >>> created(obj)
 
 Copying
@@ -102,11 +93,6 @@ be done manually or through the convenience API
 
     >>> obj['key'] = 42
 
-    >>> from zope.lifecycleevent import ObjectModifiedEvent
-    >>> notify(ObjectModifiedEvent(obj))
-
-The above is equivalent to this:
-
     >>> from zope.lifecycleevent import modified
     >>> modified(obj)
 
@@ -128,24 +114,61 @@ way this object implements the interface changed":
 
     >>> from zope.interface import Interface, Attribute, implementer
     >>> class IFile(Interface):
-    ...     data = Attribute("Data")
+    ...     data = Attribute("The data of the file.")
+    ...     name = Attribute("The name of the file.")
+
     >>> @implementer(IFile)
     ... class File(object):
-    ...     pass
+    ...     data = ''
+    ...     name = ''
 
     >>> file = File()
+    >>> created(file)
     >>> file.data = "123"
-    >>> notify(ObjectModifiedEvent(obj, IFile))
+    >>> modified(file, IFile)
+
+Attributes
+~~~~~~~~~~
 
 We can also be more specific in a case like this where we know exactly
 what attribute of the interface we modified. There is a helper class
 :class:`zope.lifecycleevent.Attributes` that assists:
 
-    >>> file.data = "abc"
     >>> from zope.lifecycleevent import Attributes
-    >>> modified(obj, Attributes(IFile, "data"))
+    >>> file.data = "abc"
+    >>> modified(file, Attributes(IFile, "data"))
 
-.. TODO: Discuss modifying multiple attributes.
+If we modify multiple attributes of an interface at the same time, we
+can include that information in a single ``Attributes`` object:
+
+    >>> file.data = "123"
+    >>> file.name = "123.txt"
+    >>> modified(file, Attributes(IFile, "data", "name"))
+
+Sometimes we may change attributes from multiple interfaces at the
+same time. We can also represent this by including more than one
+``Attributes`` instance:
+
+   >>> import time
+   >>> class IModified(Interface):
+   ...    lastModified = Attribute("The timestamp when the object was modified.")
+
+   >>> @implementer(IModified)
+   ... class ModifiedFile(File):
+   ...    lastModified = 0
+
+   >>> file = ModifiedFile()
+   >>> created(file)
+
+   >>> file.data = "abc"
+   >>> file.lastModified = time.time()
+   >>> modified(file,
+   ...          Attributes(IFile, "data"),
+   ...          Attributes(IModified, "lastModified"))
+
+
+Sequences
+~~~~~~~~~
 
 When an object is a sequence or container, we can specify
 the individual indexes or keys that we changed using
@@ -174,8 +197,20 @@ We can also replace an existing object:
     >>> files[0] = File()
     >>> modified(files, Sequence(IFileList, 0))
 
-Of course these can be combined in any order and length necessary to
-describe the modifications fully.
+Of course ``Attributes`` and ``Sequences`` can be combined in any
+order and length necessary to describe the modifications fully.
+
+Modification Descriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Although this package does not require any particular definition or
+implementation of modification descriptions, it provides the two that
+we've already seen: :class:`~zope.lifecycleevent.Attributes` and
+:class:`~zope.lifecycleevent.Sequence`. Both of these classes
+implement the marker interface
+:class:`~zope.lifecycleevent.interfaces.IModificationDescription`. If
+you implement custom modification descriptions, consider implementing
+this marker interface.
 
 Movement
 ========
