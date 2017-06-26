@@ -4,10 +4,16 @@
 
 .. image:: https://travis-ci.org/zopefoundation/zope.lifecycleevent.png?branch=master
         :target: https://travis-ci.org/zopefoundation/zope.lifecycleevent
+        :alt: Build Status
 
 .. image:: https://readthedocs.org/projects/zopelifecycleevent/badge/?version=latest
          :target: http://zopelifecycleevent.readthedocs.io/en/latest/?badge=latest
          :alt: Documentation Status
+
+.. image:: https://coveralls.io/repos/github/zopefoundation/zope.lifecycleevent/badge.svg?branch=master
+         :target: https://coveralls.io/github/zopefoundation/zope.lifecycleevent?branch=master
+         :alt: Coverage Status
+
 
 Overview
 ========
@@ -22,8 +28,8 @@ for describing the life-cycle of objects in the system: object
 creation, object modification, and object removal.
 
 .. _inform each other: https://zopeevent.readthedocs.io/en/latest/api.html#zope.event.notify
-.. _zope.event: http://zopeevent.readthedocs.io/en/latest/
-.. _zope.component: http://zopecomponent.readthedocs.io/en/latest/
-.. _zope.interface: http://zopeinterface.readthedocs.io/en/latest/
+.. _zope.event: https://zopeevent.readthedocs.io/en/latest/
+.. _zope.component: https://zopecomponent.readthedocs.io/en/latest/
+.. _zope.interface: https://zopeinterface.readthedocs.io/en/latest/
 
-Documentation is hosted at http://zopelifecycleevent.readthedocs.io
+Documentation is hosted at https://zopelifecycleevent.readthedocs.io

@@ -27,7 +27,7 @@ zope.lifecycleevent is hosted at GitHub:
 Project URLs
 ============
 
-* http://pypi.python.org/pypi/zope.lifecycleevent       (PyPI entry and downloads)
+* https://pypi.python.org/pypi/zope.lifecycleevent       (PyPI entry and downloads)
 
 
 ====================
