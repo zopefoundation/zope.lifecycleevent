@@ -27,89 +27,99 @@ class IZopeLifecycleEvent(Interface):
     """
 
     def created(object):
-        """Send an IObjectCreatedEvent for `object`."""
+        """Send an :class:`~.IObjectCreatedEvent` for ``object``."""
 
     def modified(object, *descriptions):
-        """Send an IObjectModifiedEvent for `object`.
+        """Send an :class:`~.IObjectModifiedEvent` for ``object``.
 
-        `descriptions` is a sequence of interfaces or fields which were
-        updated.
+        ``descriptions`` is a sequence of interfaces or fields which were
+        updated. The :class:`IAttributes` and :class:`ISequence` helpers
+        can be used.
 
         """
 
     def copied(object, original):
-        """Send an IObjectCopiedEvent for object.
+        """Send an :class:`~.IObjectCopiedEvent` for ``object``.
 
-        `original` is the object the copy was created from.
+        ``original`` is the object the copy was created from.
 
         """
 
     def moved(object, oldParent, oldName, newParent, newName):
-        """Send an IObjectMovedEvent for object.
+        """Send an :class:`~.IObjectMovedEvent` for ``object``.
 
-        `oldParent` is the container `object` was removed from.
-        `oldName` was the name used to store `object` in `oldParent`.
-        `newParent` is the container `object` was added to.
-        `newName` is the name used to store `object` in `newParent`.
+        ``oldParent`` is the container ``object`` was removed from.
+        ``oldName`` was the name used to store ``object`` in ``oldParent``.
+        ``newParent`` is the container ``object`` was added to.
+        ``newName`` is the name used to store ``object`` in ``newParent``.
+
+        Note that ``newParent`` and ``oldParent`` may be the same if the names
+        are different, and vice versa.
 
         """
 
     def added(object, newParent=None, newName=None):
-        """Send an IObjectAddedEvent for object.
+        """Send an :class:`~.IObjectAddedEvent` for ``object``.
 
-        `newParent` is the container `object` was added to.
-        `newName` is the name used to store `object` in the container.
-        These will be determined object.__parent__ and object.__name__
-        if None.
+        ``newParent`` is the container ``object`` was added to.
+        ``newName`` is the name used to store ``object`` in the container.
 
+        If either of these is not provided or is ``None``, they will
+        be taken from the values of ``object.__parent__`` or
+        ``object.__name__``, respectively.
         """
 
     def removed(object, oldParent=None, oldName=None):
-        """Send an IObjectRemovedEvent for object.
+        """Send an :class:`~.IObjectRemovedEvent` for ``object``.
 
-        `oldParent` is the container `object` was removed from.
-        `oldName` was the name used to store `object` in `oldParent`.
-        These will be determined object.__parent__ and object.__name__
-        if None.
+        ``oldParent`` is the container ``object`` was removed from.
+        ``oldName`` was the name used to store ``object`` in `oldParent`.
 
+        If either of these is not provided or is ``None``, they will
+        be taken from the values of ``object.__parent__`` or
+        ``object.__name__``, respectively.
         """
 
 
 class IObjectCreatedEvent(interfaces.IObjectEvent):
     """An object has been created.
 
-    The location will usually be ``None`` for this event."""
+    The ``object`` attribute will commonly have a value of ``None``
+    for its ``__name__`` and ``__parent__`` values (if it has those attributes
+    at all).
+    """
 
 
 class IObjectCopiedEvent(IObjectCreatedEvent):
-    """An object has been copied"""
+    """An object has been copied."""
 
-    original = Attribute("The original from which the copy was made")
+    original = Attribute("The original from which the copy was made.")
 
 
 class IObjectModifiedEvent(interfaces.IObjectEvent):
     """An object has been modified"""
 
+    descriptions = Attribute("""The supplied modification descriptions.
+
+    These may be interfaces or implementations of :class:`IModificationDescription`
+    such as :class:`~.Attributes` or :class:`~.Sequence`""")
+
 
 class IModificationDescription(Interface):
-    """ Marker interface for descriptions of object modifications.
+    """Marker interface for descriptions of object modifications.
 
     Can be used as a parameter of an IObjectModifiedEvent."""
 
 
 class IAttributes(IModificationDescription):
-    """ Describes the attributes of an interface.
-
-    """
+    """Describes the attributes of an interface."""
 
     interface = Attribute("The involved interface.")
     attributes = Attribute("A sequence of modified attributes.")
 
 
 class ISequence(IModificationDescription):
-    """ Describes the modified keys of a sequence-like interface.
-
-    """
+    """Describes the modified keys of a sequence-like interface."""
 
     interface = Attribute("The involved interface.")
     keys = Attribute("A sequence of modified keys.")

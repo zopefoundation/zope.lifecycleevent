@@ -11,7 +11,10 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Life cycle events
+"""Life cycle events.
+
+This module provides the :class:`~.IZopeLifecycleEvent` interface,
+in addition to concrete classes implementing the various event interfaces.
 """
 __docformat__ = 'restructuredtext'
 
@@ -31,7 +34,6 @@ from zope.lifecycleevent.interfaces import ISequence
 
 
 moduleProvides(IZopeLifecycleEvent)
-
 
 @implementer(IObjectCreatedEvent)
 class ObjectCreatedEvent(ObjectEvent):
@@ -109,7 +111,12 @@ def moved(object, oldParent, oldName, newParent, newName):
 
 @implementer(IObjectAddedEvent)
 class ObjectAddedEvent(ObjectMovedEvent):
-    """An object has been added to a container"""
+    """An object has been added to a container.
+
+    If ``newParent`` or ``newName`` is not provided or is ``None``,
+    they will be taken from the values of ``object.__parent__`` or
+    ``object.__name__``, respectively.
+    """
 
     def __init__(self, object, newParent=None, newName=None):
         if newParent is None:
@@ -126,7 +133,12 @@ def added(object, newParent=None, newName=None):
 
 @implementer(IObjectRemovedEvent)
 class ObjectRemovedEvent(ObjectMovedEvent):
-    """An object has been removed from a container"""
+    """An object has been removed from a container.
+
+    If ``oldParent`` or ``oldName`` is not provided or is ``None``,
+    they will be taken from the values of ``object.__parent__`` or
+    ``object.__name__``, respectively.
+    """
 
     def __init__(self, object, oldParent=None, oldName=None):
         if oldParent is None:
@@ -139,3 +151,13 @@ class ObjectRemovedEvent(ObjectMovedEvent):
 def removed(object, oldParent=None, oldName=None):
     "See :meth:`.IZopeLifecycleEvent.removed`"
     notify(ObjectRemovedEvent(object, oldParent, oldName))
+
+
+
+def _copy_docs():
+    for func_name, func_value in IZopeLifecycleEvent.namesAndDescriptions():
+        func = globals()[func_name]
+        func.__doc__ = func_value.__doc__
+
+_copy_docs()
+del _copy_docs

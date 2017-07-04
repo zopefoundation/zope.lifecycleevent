@@ -2,11 +2,14 @@
  What is zope.lifecycleevent?
 ==============================
 
-.. include:: ../src/zope/lifecycleevent/README.txt
+.. include:: ../README.rst
 
 .. toctree::
    :maxdepth: 1
 
+   quickstart
+   manual
+   handling
    api
 
 .. toctree::
@@ -26,7 +29,7 @@ zope.lifecycleevent is hosted at GitHub:
 Project URLs
 ============
 
-* http://pypi.python.org/pypi/zope.lifecycleevent       (PyPI entry and downloads)
+* https://pypi.python.org/pypi/zope.lifecycleevent       (PyPI entry and downloads)
 
 
 ====================
