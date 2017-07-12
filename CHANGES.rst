@@ -10,6 +10,7 @@
 
 - Drop support for Python 2.6 and 3.3.
 
+- Documentation is hosted at https://zopelifecycleevent.readthedocs.io
 
 4.1.0 (2014-12-27)
 ==================
