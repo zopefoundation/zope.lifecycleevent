@@ -2,7 +2,7 @@
  ``zope.lifecycleevent``
 =========================
 
-.. image:: https://travis-ci.org/zopefoundation/zope.lifecycleevent.png?branch=master
+.. image:: https://travis-ci.org/zopefoundation/zope.lifecycleevent.svg?branch=master
         :target: https://travis-ci.org/zopefoundation/zope.lifecycleevent
         :alt: Build Status
 
