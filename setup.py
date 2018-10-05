@@ -51,14 +51,14 @@ setup(
         'Topic :: Software Development',
     ],
     description='Object life-cycle events',
-    long_description=\
+    long_description=(
         read('README.rst')
         + '\n\n' +
-        read('CHANGES.rst'),
+        read('CHANGES.rst')),
     keywords="event lifecycle zope component interface flexible",
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    namespace_packages=['zope',],
+    namespace_packages=['zope'],
     include_package_data=True,
     install_requires=[
         'setuptools',
