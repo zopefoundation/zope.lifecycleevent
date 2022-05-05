@@ -16,21 +16,26 @@
 import doctest
 import unittest
 
-from zope import interface
-
 from zope.component import testing
+from zope.interface.verify import verifyClass
+from zope.interface.verify import verifyObject
 from zope.testing import module
 
-from zope.lifecycleevent import ObjectCreatedEvent, created
-from zope.lifecycleevent import Attributes, Sequence
-from zope.lifecycleevent import ObjectModifiedEvent, modified
-from zope.lifecycleevent import ObjectCopiedEvent, copied
-from zope.lifecycleevent import ObjectMovedEvent, moved
-from zope.lifecycleevent import ObjectRemovedEvent, removed
-from zope.lifecycleevent import ObjectAddedEvent, added
-
-from zope.interface.verify import verifyObject
-from zope.interface.verify import verifyClass
+from zope import interface
+from zope.lifecycleevent import Attributes
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectCopiedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectModifiedEvent
+from zope.lifecycleevent import ObjectMovedEvent
+from zope.lifecycleevent import ObjectRemovedEvent
+from zope.lifecycleevent import Sequence
+from zope.lifecycleevent import added
+from zope.lifecycleevent import copied
+from zope.lifecycleevent import created
+from zope.lifecycleevent import modified
+from zope.lifecycleevent import moved
+from zope.lifecycleevent import removed
 
 
 class Context(object):
@@ -87,7 +92,7 @@ class _AbstractEventCase(_AbstractListenerCase):
         try:
             notifier = notifier.__func__
         except AttributeError:
-            pass # Python 3
+            pass  # Python 3
         notifier(*self._getInitArgs())
         self.assertEqual(len(self.listener), 1)
         self.assertEqual(self.listener[-1].object, self.object)
@@ -98,7 +103,8 @@ class TestSequence(unittest.TestCase):
 
     def testSequence(self):
 
-        from zope.interface import Interface, Attribute
+        from zope.interface import Attribute
+        from zope.interface import Interface
 
         class ISample(Interface):
             field1 = Attribute("A test field")
@@ -125,6 +131,7 @@ class TestObjectCreatedEvent(_AbstractEventCase,
     klass = ObjectCreatedEvent
     notifier = created
 
+
 class TestObjectModifiedEvent(_AbstractEventCase,
                               unittest.TestCase):
 
@@ -132,7 +139,9 @@ class TestObjectModifiedEvent(_AbstractEventCase,
     notifier = modified
 
     def testAttributes(self):
-        from zope.interface import implementer, Interface, Attribute
+        from zope.interface import Attribute
+        from zope.interface import Interface
+        from zope.interface import implementer
 
         class ISample(Interface):
             field = Attribute("A test field")
@@ -273,13 +282,16 @@ class TestMoved(_AbstractListenerCase,
         self.assertEqual(event.newParent, 'newParent')
         self.assertEqual(event.newName, 'newName')
 
+
 def setUp(test):
     testing.setUp(test)
     module.setUp(test)
 
+
 def tearDown(test):
     module.tearDown(test)
     testing.tearDown(test)
+
 
 def test_suite():
     return unittest.TestSuite((
@@ -291,6 +303,3 @@ def test_suite():
                              tearDown=tearDown,
                              optionflags=doctest.ELLIPSIS),
     ))
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')

@@ -15,7 +15,8 @@
 """
 __docformat__ = 'restructuredtext'
 
-from zope.interface import Interface, Attribute
+from zope.interface import Attribute
+from zope.interface import Interface
 from zope.interface import interfaces
 
 
@@ -101,8 +102,9 @@ class IObjectModifiedEvent(interfaces.IObjectEvent):
 
     descriptions = Attribute("""The supplied modification descriptions.
 
-    These may be interfaces or implementations of :class:`IModificationDescription`
-    such as :class:`~.Attributes` or :class:`~.Sequence`""")
+    These may be interfaces or implementations of
+    :class:`IModificationDescription` such as :class:`~.Attributes` or
+    :class:`~.Sequence`""")
 
 
 class IModificationDescription(Interface):
