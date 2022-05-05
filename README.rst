@@ -2,8 +2,8 @@
  ``zope.lifecycleevent``
 =========================
 
-.. image:: https://travis-ci.com/zopefoundation/zope.lifecycleevent.svg?branch=master
-        :target: https://travis-ci.com/zopefoundation/zope.lifecycleevent
+.. image:: https://github.com/zopefoundation/zope.lifecycleevent/actions/workflows/tests.yml/badge.svg
+        :target: https://github.com/zopefoundation/zope.lifecycleevent/actions/workflows/tests.yml
         :alt: Build Status
 
 .. image:: https://readthedocs.org/projects/zopelifecycleevent/badge/?version=latest
