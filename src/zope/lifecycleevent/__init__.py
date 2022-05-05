@@ -18,22 +18,24 @@ in addition to concrete classes implementing the various event interfaces.
 """
 __docformat__ = 'restructuredtext'
 
-from zope.interface.interfaces import ObjectEvent
-from zope.interface import implementer, moduleProvides
 from zope.event import notify
+from zope.interface import implementer
+from zope.interface import moduleProvides
+from zope.interface.interfaces import ObjectEvent
 
-from zope.lifecycleevent.interfaces import IZopeLifecycleEvent
+from zope.lifecycleevent.interfaces import IAttributes
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectMovedEvent
-from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-from zope.lifecycleevent.interfaces import IAttributes
 from zope.lifecycleevent.interfaces import ISequence
+from zope.lifecycleevent.interfaces import IZopeLifecycleEvent
 
 
 moduleProvides(IZopeLifecycleEvent)
+
 
 @implementer(IObjectCreatedEvent)
 class ObjectCreatedEvent(ObjectEvent):
@@ -153,11 +155,11 @@ def removed(object, oldParent=None, oldName=None):
     notify(ObjectRemovedEvent(object, oldParent, oldName))
 
 
-
 def _copy_docs():
     for func_name, func_value in IZopeLifecycleEvent.namesAndDescriptions():
         func = globals()[func_name]
         func.__doc__ = func_value.__doc__
+
 
 _copy_docs()
 del _copy_docs
