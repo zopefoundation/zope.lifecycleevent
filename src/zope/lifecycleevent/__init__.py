@@ -48,7 +48,7 @@ def created(object):
 
 
 @implementer(IAttributes)
-class Attributes(object):
+class Attributes:
     """Describes modified attributes of an interface."""
 
     def __init__(self, interface, *attributes):
@@ -57,7 +57,7 @@ class Attributes(object):
 
 
 @implementer(ISequence)
-class Sequence(object):
+class Sequence:
     """Describes modified keys of an interface."""
 
     def __init__(self, interface, *keys):
@@ -71,7 +71,7 @@ class ObjectModifiedEvent(ObjectEvent):
 
     def __init__(self, object, *descriptions):
         """Init with a list of modification descriptions."""
-        super(ObjectModifiedEvent, self).__init__(object)
+        super().__init__(object)
         self.descriptions = descriptions
 
 
@@ -85,7 +85,7 @@ class ObjectCopiedEvent(ObjectCreatedEvent):
     """An object has been copied"""
 
     def __init__(self, object, original):
-        super(ObjectCopiedEvent, self).__init__(object)
+        super().__init__(object)
         self.original = original
 
 

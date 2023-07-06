@@ -12,7 +12,7 @@
 #
 ##############################################################################
 # This package is developed by the Zope Toolkit project, documented here:
-# http://docs.zope.org/zopetoolkit
+# https://zopetoolkit.readthedocs.io/
 # When developing and releasing this package, please follow the documented
 # Zope Toolkit policies as described by this documentation.
 ##############################################################################
@@ -34,18 +34,14 @@ setup(
     version=read('version.txt').strip(),
     url='http://github.com/zopefoundation/zope.lifecycleevent',
     author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.org',
+    author_email='zope-dev@zope.dev',
     license='ZPL 2.1',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
@@ -67,6 +63,7 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=['zope'],
     include_package_data=True,
+    python_requires='>=3.7',
     install_requires=[
         'setuptools',
         'zope.interface',
@@ -86,6 +83,5 @@ setup(
             'sphinx_rtd_theme',
         ]
     },
-    test_suite='zope.lifecycleevent.tests.test_suite',
     zip_safe=False,
 )
