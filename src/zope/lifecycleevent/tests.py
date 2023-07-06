@@ -38,14 +38,14 @@ from zope.lifecycleevent import moved
 from zope.lifecycleevent import removed
 
 
-class Context(object):
+class Context:
     pass
 
 
-class _AbstractListenerCase(object):
+class _AbstractListenerCase:
 
     def setUp(self):
-        super(_AbstractListenerCase, self).setUp()
+        super().setUp()
         from zope.event import subscribers
         self._old_subscribers = subscribers[:]
         self.listener = []
@@ -54,7 +54,7 @@ class _AbstractListenerCase(object):
     def tearDown(self):
         from zope.event import subscribers
         subscribers[:] = self._old_subscribers
-        super(_AbstractListenerCase, self).tearDown()
+        super().tearDown()
 
 
 class _AbstractEventCase(_AbstractListenerCase):
@@ -73,7 +73,7 @@ class _AbstractEventCase(_AbstractListenerCase):
         return self._getTargetClass()(*self._getInitArgs())
 
     def setUp(self):
-        super(_AbstractEventCase, self).setUp()
+        super().setUp()
         self.event = self._makeOne()
 
     def testGetObject(self):
@@ -89,10 +89,6 @@ class _AbstractEventCase(_AbstractListenerCase):
 
     def test_notify(self):
         notifier = type(self).notifier
-        try:
-            notifier = notifier.__func__
-        except AttributeError:
-            pass  # Python 3
         notifier(*self._getInitArgs())
         self.assertEqual(len(self.listener), 1)
         self.assertEqual(self.listener[-1].object, self.object)
@@ -147,7 +143,7 @@ class TestObjectModifiedEvent(_AbstractEventCase,
             field = Attribute("A test field")
 
         @implementer(ISample)
-        class Sample(object):
+        class Sample:
             pass
         obj = Sample()
         obj.field = 42
@@ -169,7 +165,7 @@ class TestObjectCopiedEvent(_AbstractEventCase,
         return (self.object, self.original)
 
     def test_notify(self):
-        delivered = super(TestObjectCopiedEvent, self).test_notify()
+        delivered = super().test_notify()
         self.assertEqual(delivered.original, self.original)
 
 
