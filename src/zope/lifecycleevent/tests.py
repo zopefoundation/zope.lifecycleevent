@@ -259,7 +259,7 @@ class TestObjectRemovedEvent(_AbstractEventCase,
         event = self._makeOne()
         self.assertEqual(event.object, ob)
         self.assertEqual(event.newParent, None)
-        self.assertEqual(event.newName,  None)
+        self.assertEqual(event.newName, None)
         self.assertEqual(event.oldParent, parent)
         self.assertEqual(event.oldName, 'name')
 
@@ -271,7 +271,7 @@ class TestMoved(_AbstractListenerCase,
         moved('object', 'oldParent', 'oldName', 'newParent', 'newName')
         self.assertEqual(1, len(self.listener))
         event = self.listener[0]
-        self.assertTrue(isinstance(event, ObjectMovedEvent))
+        self.assertIsInstance(event, ObjectMovedEvent)
         self.assertEqual(event.object, 'object')
         self.assertEqual(event.oldParent, 'oldParent')
         self.assertEqual(event.oldName, 'oldName')

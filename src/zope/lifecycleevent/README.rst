@@ -2,8 +2,6 @@
  Quick Start
 =============
 
-.. module:: zope.lifecycleevent
-
 This document describes the various event types defined by this
 package and provides some basic examples of using them to inform parts
 of the system about object changes.
