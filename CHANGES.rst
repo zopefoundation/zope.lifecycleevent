@@ -5,6 +5,8 @@
 6.1 (unreleased)
 ================
 
+- Move package metadata from setup.py to pyproject.toml.
+
 - Replaced ``version.txt`` fossil with ``importlib.metadata`` lookup
   (in ``docs/conf.py``) / static value (``setup.py``).
 
