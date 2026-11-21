@@ -30,7 +30,7 @@ def read(*rnames):
 
 setup(
     name='zope.lifecycleevent',
-    version=read('version.txt').strip(),
+    version='6.1.dev0',
     url='http://github.com/zopefoundation/zope.lifecycleevent',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.dev',
