@@ -18,14 +18,7 @@
 ##############################################################################
 """Setup for zope.lifecycleevent package
 """
-import os
-
 from setuptools import setup
-
-
-def read(*rnames):
-    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
-        return f.read()
 
 
 # See pyproject.toml for package metadata
