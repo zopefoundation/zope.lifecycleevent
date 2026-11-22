@@ -18,66 +18,8 @@
 ##############################################################################
 """Setup for zope.lifecycleevent package
 """
-import os
-
 from setuptools import setup
 
 
-def read(*rnames):
-    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
-        return f.read()
-
-
-setup(
-    name='zope.lifecycleevent',
-    version='6.1.dev0',
-    url='http://github.com/zopefoundation/zope.lifecycleevent',
-    author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.dev',
-    license='ZPL-2.1',
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: Zope Public License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.11',
-        'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: 3.13',
-        'Programming Language :: Python :: 3.14',
-        'Programming Language :: Python :: 3.15',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        'Operating System :: OS Independent',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Software Development',
-    ],
-    description='Object life-cycle events',
-    long_description=(
-        read('README.rst')
-        + '\n\n' +
-        read('CHANGES.rst')),
-    keywords="event lifecycle zope component interface flexible",
-    include_package_data=True,
-    python_requires='>=3.11',
-    install_requires=[
-        'setuptools',
-        'zope.interface',
-        'zope.event'
-    ],
-    extras_require={
-        'test': [
-            'zope.component',
-            # NOTE: zope.configuration relies on zope.schema,
-            # which relies on zope.event, so we have a cycle
-            'zope.configuration',
-            'zope.testing',
-            'zope.testrunner >= 6.4',
-        ],
-        'docs': [
-            'repoze.sphinx.autointerface',
-            'sphinx_rtd_theme',
-        ]
-    },
-    zip_safe=False,
-)
+# See pyproject.toml for package metadata
+setup()
